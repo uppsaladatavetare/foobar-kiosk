@@ -1,9 +1,17 @@
 import { combineReducers } from 'redux';
 import {
   ADD_PRODUCT, SELECT_PRODUCT, INCREASE_PRODUCT_QTY, REMOVE_PRODUCT,
-  REQUEST_PRODUCT
+  REQUEST_PRODUCT, REQUEST_ACCOUNT, LOGIN_ACCOUNT
 } from '../actions';
 
+function account(state = {}, action) {
+  switch (action.type) {
+    case LOGIN_ACCOUNT:
+      return Object.assign({}, state, action.data);
+    default:
+      return state;
+  }
+}
 
 function products(state = {products: []}, action) {
   switch (action.type) {
@@ -76,6 +84,7 @@ function products(state = {products: []}, action) {
 }
 
 const rootReducer = combineReducers({
+  account,
   products
 });
 

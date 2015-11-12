@@ -4,7 +4,8 @@ import {
   addProduct,
   removeProduct,
   selectProduct,
-  increaseProductQty
+  increaseProductQty,
+  login
 } from '../actions';
 import ProductList from '../components/ProductList';
 import PurchaseButton from '../components/PurchaseButton';
@@ -13,6 +14,8 @@ import AccountBar from '../components/AccountBar';
 
 class App extends Component {
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(login('154464990'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,14 +37,14 @@ class App extends Component {
   }
 
   render() {
-    const { dispatch, products } = this.props;
+    const { dispatch, products, account } = this.props;
     return (
       <div id="container">
         <ProductList products={products}
                      onSelect={(ean) => dispatch(selectProduct(ean))} />
             <span id="trash" className="button"></span>
             <div id="sidebar">
-                <AccountBar name="Krzysztof" balance="0" />
+                <AccountBar {...account} />
                 <div id="menubox"></div>
                 <PurchaseButton products={products} />
             </div>
@@ -75,10 +78,11 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { products } = state;
+  const { products, account } = state;
 
   return {
-    products
+    products,
+    account
   };
 }
 

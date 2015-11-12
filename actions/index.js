@@ -5,6 +5,8 @@ export const INCREASE_PRODUCT_QTY = 'INCREASE_PRODUCT_QTY';
 export const SELECT_PRODUCT = 'SELECT_PRODUCT';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const REQUEST_PRODUCT = 'REQUEST_PRODUCT';
+export const REQUEST_ACCOUNT = 'REQUEST_ACCOUNT';
+export const LOGIN_ACCOUNT = 'LOGIN_ACCOUNT';
 
 export function addProduct(ean) {
   return dispatch => {
@@ -56,3 +58,33 @@ export function removeProduct() {
     type: REMOVE_PRODUCT
   }
 };
+
+/* account - TODO: move to a separate module */
+export function requestAccount(cardId) {
+  return {
+    type: REQUEST_ACCOUNT,
+    cardId
+  };
+}
+
+export function receiveAccount(data) {
+  return {
+    type: LOGIN_ACCOUNT,
+    data: data
+  }
+}
+
+export function login(cardId) {
+  return dispatch => {
+    dispatch(requestAccount(cardId));
+    return fetch(`http://dev.foocash.me/api/accounts/${cardId}/`, {
+        headers: {
+          'Authorization': 'Token ###'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        dispatch(receiveAccount(data))
+      });
+  }
+}
