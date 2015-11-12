@@ -10,6 +10,7 @@ import {
 import ProductList from '../components/ProductList';
 import PurchaseButton from '../components/PurchaseButton';
 import AccountBar from '../components/AccountBar';
+import ButtonBar from '../components/ButtonBar';
 
 
 class App extends Component {
@@ -38,37 +39,28 @@ class App extends Component {
 
   render() {
     const { dispatch, products, account } = this.props;
+    let selected = products.products.filter((p) => p.selected).length
     return (
       <div id="container">
-        <ProductList products={products}
-                     onSelect={(ean) => dispatch(selectProduct(ean))} />
-            <span id="trash" className="button"></span>
-            <div id="sidebar">
-                <AccountBar {...account} />
-                <div id="menubox"></div>
-                <PurchaseButton products={products} />
-            </div>
-            <div id="edit">
-                <span className="button scroll up" onClick={(e) => this.addRandomProduct()}><i className="fa fa-chevron-up"></i></span>
-                <div className="container">
-                    <span className="button plus"
-                          onClick={(e) => dispatch(increaseProductQty(1))}>
-                      <i className="fa fa-plus"></i>
-                    </span>
-                    <span className="button minus"
-                          onClick={(e) => dispatch(increaseProductQty(-1))}>
-                      <i className="fa fa-minus"></i>
-                    </span>
-                    <span className="button trash"
-                          onClick={(e) => dispatch(removeProduct())}>
-                      <i className="fa fa-trash"></i>
-                    </span>
-                </div>
-                <span className="button scroll down">
-                  <i className="fa fa-chevron-down"></i>
-                </span>
-            </div>
+        <ProductList
+          products={products}
+          onSelect={(ean) => dispatch(selectProduct(ean))}
+        />
+        <span id="trash" className="button"></span>
+        <div id="sidebar">
+            <AccountBar {...account} />
+            <div id="menubox"></div>
+            <PurchaseButton products={products} />
         </div>
+        <ButtonBar
+          onIncrease={() => dispatch(increaseProductQty(1))}
+          onDecrease={() => dispatch(increaseProductQty(-1))}
+          onRemove={() => dispatch(removeProduct())}
+          onScrollUp={() => this.addRandomProduct()}
+          onScrollDown={() => dispatch(increaseProductQty(1))}
+          active={selected > 0}
+        />
+      </div>
     );
   }
 }

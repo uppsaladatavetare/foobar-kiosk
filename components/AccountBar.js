@@ -20,5 +20,5 @@ export default class AccountBar extends Component {
 
 AccountBar.propTypes = {
   name: PropTypes.string,
-  balance: PropTypes.integer
+  balance: PropTypes.number
 };

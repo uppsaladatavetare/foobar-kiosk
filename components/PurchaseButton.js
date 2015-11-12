@@ -5,7 +5,7 @@ export default class PurchaseButton extends Component {
     const {products} = this.props.products;
     let total = products
       .filter((p) => !p.loading)
-      .map((p) => p.price * p.qty).reduce((x, y) => x + y, 0)
+      .map((p) => p.price * p.qty).reduce((x, y) => x + y, 0);
     return (
       <span id="buy" className="button" href="#">
         <span>{total}</span>
