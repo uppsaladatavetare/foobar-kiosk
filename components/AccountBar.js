@@ -6,7 +6,7 @@ export default class AccountBar extends Component {
       return (
         <div id="account">
           <div className="name">{this.props.name}</div>
-          <div id="balance">Balance: <span>{this.props.balance}</span> kr</div>
+          <div className="balance">Balance: {this.props.balance} kr</div>
         </div>
       );
     }
