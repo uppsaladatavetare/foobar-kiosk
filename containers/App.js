@@ -5,7 +5,8 @@ import {
   removeProduct,
   selectProduct,
   increaseProductQty,
-  login
+  login,
+  changePage
 } from '../actions';
 import ProductList from '../components/ProductList';
 import PurchaseButton from '../components/PurchaseButton';
@@ -57,7 +58,7 @@ class App extends Component {
           onDecrease={() => dispatch(increaseProductQty(-1))}
           onRemove={() => dispatch(removeProduct())}
           onScrollUp={() => this.addRandomProduct()}
-          onScrollDown={() => dispatch(increaseProductQty(1))}
+          onScrollDown={() => dispatch(changePage(1))}
           active={selected > 0}
         />
       </div>

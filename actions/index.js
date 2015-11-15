@@ -155,6 +155,13 @@ export function removeProduct() {
   };
 };
 
+export function changePage(count) {
+  return {
+    type: CHANGE_PAGE,
+    count
+  };
+};
+
 /* account - TODO: move to a separate module */
 export function requestAccount(cardId) {
   return {
