@@ -5,9 +5,9 @@ import {
   removeProduct,
   selectProduct,
   increaseProductQty,
-  login,
   changePage
-} from '../actions';
+} from '../actions/product';
+import { login } from '../actions/account';
 import ProductList from '../components/ProductList';
 import PurchaseButton from '../components/PurchaseButton';
 import AccountBar from '../components/AccountBar';

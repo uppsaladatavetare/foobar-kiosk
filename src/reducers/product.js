@@ -1,21 +1,7 @@
-import { combineReducers } from 'redux';
 import {
   ADD_PRODUCT, SELECT_PRODUCT, INCREASE_PRODUCT_QTY, REMOVE_PRODUCT,
-  REQUEST_PRODUCT, CHANGE_PAGE, REQUEST_ACCOUNT, LOGIN_ACCOUNT
-} from '../actions';
-
-import { compose, createStore, applyMiddleware } from 'redux';
-import { devTools, persistState } from 'redux-devtools';
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
-
-function account(state = {}, action) {
-  switch (action.type) {
-    case LOGIN_ACCOUNT:
-      return Object.assign({}, state, action.data);
-    default:
-      return state;
-  }
-}
+  REQUEST_PRODUCT, CHANGE_PAGE
+} from '../actions/product';
 
 function _products(state, action) {
   switch (action.type) {
@@ -87,7 +73,7 @@ function _products(state, action) {
   }
 }
 
-function products(state = {products: [], page: 0}, action) {
+export function products(state = {products: [], page: 0}, action) {
   var preCount = state.products.length;
   var newState = _products(state, action);
   var postCount = newState.products.length;
@@ -118,10 +104,3 @@ function products(state = {products: [], page: 0}, action) {
       return newState;
   }
 }
-
-const rootReducer = combineReducers({
-  account,
-  products
-});
-
-export default rootReducer;

@@ -28,8 +28,6 @@ export default class ButtonBar extends Component {
       'active': scrollDownActive,
     });
 
-    console.log(scrollUpActive, scrollUpActive);
-
     return (
       <div id="edit" className={active && "active"}>
         <span className={scrollUpClasses} onClick={onScrollUp}>

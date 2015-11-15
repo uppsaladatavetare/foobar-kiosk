@@ -6,8 +6,6 @@ export const SELECT_PRODUCT = 'SELECT_PRODUCT';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const REQUEST_PRODUCT = 'REQUEST_PRODUCT';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
-export const REQUEST_ACCOUNT = 'REQUEST_ACCOUNT';
-export const LOGIN_ACCOUNT = 'LOGIN_ACCOUNT';
 
 class Cache {
   constructor() {
@@ -73,7 +71,7 @@ class ProductFetcher {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Token ###'
+            'Authorization': 'Token 03be53c1ab8f74edac76bd60695f84f089634c80'
           }
         }
       )
@@ -96,7 +94,7 @@ class ProductFetcher {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Token ###'
+          'Authorization': 'Token 03be53c1ab8f74edac76bd60695f84f089634c80'
         }
       }
     )
@@ -161,35 +159,3 @@ export function changePage(count) {
     count
   };
 };
-
-/* account - TODO: move to a separate module */
-export function requestAccount(cardId) {
-  return {
-    type: REQUEST_ACCOUNT,
-    cardId
-  };
-};
-
-export function receiveAccount(data) {
-  return {
-    type: LOGIN_ACCOUNT,
-    data: data
-  };
-};
-
-export function login(cardId) {
-  return dispatch => {
-    dispatch(requestAccount(cardId));
-    return fetch(`http://dev.foocash.me/api/accounts/${cardId}/`, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Token ###'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      dispatch(receiveAccount(data));
-    });
-  };
-}
