@@ -40,7 +40,7 @@ class App extends Component {
 
   render() {
     const { dispatch, products, account } = this.props;
-    let selected = products.products.filter((p) => p.selected).length
+    let selected = products.products.filter((p) => p.selected).length;
     return (
       <div id="container">
         <ProductList
@@ -60,6 +60,8 @@ class App extends Component {
           onScrollUp={() => this.addRandomProduct()}
           onScrollDown={() => dispatch(changePage(1))}
           active={selected > 0}
+          scrollUpActive={products.page > 0}
+          scrollDownActive={products.page < products.maxPage}
         />
       </div>
     );

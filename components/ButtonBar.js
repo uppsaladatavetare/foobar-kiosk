@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import classNames from 'classnames';
 
 export default class ButtonBar extends Component {
   render() {
@@ -8,12 +9,30 @@ export default class ButtonBar extends Component {
       onRemove,
       onScrollUp,
       onScrollDown,
+      scrollUpActive,
+      scrollDownActive,
       active
     } = this.props;
 
+    var scrollUpClasses = classNames({
+      'button': true,
+      'scroll': true,
+      'up': true,
+      'active': scrollUpActive,
+    });
+
+    var scrollDownClasses = classNames({
+      'button': true,
+      'scroll': true,
+      'down': true,
+      'active': scrollDownActive,
+    });
+
+    console.log(scrollUpActive, scrollUpActive);
+
     return (
       <div id="edit" className={active && "active"}>
-        <span className="button scroll up" onClick={onScrollUp}>
+        <span className={scrollUpClasses} onClick={onScrollUp}>
           <i className="fa fa-chevron-up"></i>
         </span>
         <div className="container">
@@ -27,7 +46,7 @@ export default class ButtonBar extends Component {
               <i className="fa fa-trash"></i>
             </span>
         </div>
-        <span className="button scroll down" onClick={onScrollDown}>
+        <span className={scrollDownClasses} onClick={onScrollDown}>
           <i className="fa fa-chevron-down"></i>
         </span>
       </div>

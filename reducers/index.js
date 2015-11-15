@@ -94,6 +94,8 @@ function products(state = {products: [], page: 0}, action) {
   var newProductAdded = postCount > preCount;
   var maxPage = Math.max(0, Math.floor((postCount - 4) / 3));
 
+  newState = Object.assign({}, newState, {maxPage});
+
   switch (action.type) {
     case INCREASE_PRODUCT_QTY:
     case REMOVE_PRODUCT:
