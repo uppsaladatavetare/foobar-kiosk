@@ -5,7 +5,8 @@ import {
   removeProduct,
   selectProduct,
   increaseProductQty,
-  changePage
+  changePage,
+  requestPurchase
 } from '../actions/product';
 import { login } from '../actions/account';
 import ProductList from '../components/ProductList';
@@ -51,7 +52,7 @@ class App extends Component {
         <div id="sidebar">
             <AccountBar {...account} />
             <div id="menubox"></div>
-            <PurchaseButton products={products} />
+            <PurchaseButton products={products} onPurchase={() => dispatch(requestPurchase())} />
         </div>
         <ButtonBar
           onIncrease={() => dispatch(increaseProductQty(1))}
