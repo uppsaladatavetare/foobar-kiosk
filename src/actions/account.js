@@ -1,7 +1,9 @@
 import fetch from 'isomorphic-fetch';
+import { newPurchase } from './purchase';
 
 export const REQUEST_ACCOUNT = 'REQUEST_ACCOUNT';
 export const LOGIN_ACCOUNT = 'LOGIN_ACCOUNT';
+export const CLEAR_ACCOUNT = 'CLEAR_ACCOUNT';
 
 export function requestAccount(cardId) {
   return {
@@ -30,6 +32,13 @@ export function login(cardId) {
     .then(response => response.json())
     .then(data => {
       dispatch(receiveAccount(data));
+      dispatch(newPurchase());
     });
   };
-}
+};
+
+export function clearAccount() {
+  return {
+    type: CLEAR_ACCOUNT
+  };
+};

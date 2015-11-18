@@ -1,6 +1,6 @@
 import {
   ADD_PRODUCT, SELECT_PRODUCT, INCREASE_PRODUCT_QTY, REMOVE_PRODUCT,
-  REQUEST_PRODUCT, CHANGE_PAGE, PENDING_PURCHASE, FINALIZE_PURCHASE
+  REQUEST_PRODUCT, CHANGE_PAGE, CLEAR_PRODUCTS
 } from '../actions/product';
 
 function _products(state, action) {
@@ -69,9 +69,7 @@ function _products(state, action) {
       return Object.assign({}, state, {
         products: state.products.filter((p) => !p.selected)
       });
-    case PENDING_PURCHASE:
-      return state;
-    case FINALIZE_PURCHASE:
+    case CLEAR_PRODUCTS:
       return Object.assign({}, state, {
         products: []
       });

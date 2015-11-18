@@ -8,6 +8,7 @@ export const REQUEST_PRODUCT = 'REQUEST_PRODUCT';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const PENDING_PURCHASE = 'PENDING_PURCHASE';
 export const FINALIZE_PURCHASE = 'FINALIZE_PURCHASE';
+export const CLEAR_PRODUCTS = 'CLEAR_PRODUCTS';
 
 class Cache {
   constructor() {
@@ -162,42 +163,8 @@ export function changePage(count) {
   };
 };
 
-export function pendingPurchase() {
+export function clearProducts() {
   return {
-    type: PENDING_PURCHASE
-  };
-};
-
-export function finalizePurchase(data) {
-  console.log(data);
-  return {
-    type: FINALIZE_PURCHASE,
-    data
-  };
-};
-
-export function requestPurchase() {
-  return (dispatch, getState) => {
-    dispatch(pendingPurchase());
-    const {
-      account,
-      products
-    } = getState();
-    return fetch(`http://dev.foocash.me/api/purchases/`, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Token ###'
-      },
-      body: JSON.stringify({
-        account_id: account.id,
-        products: products.products.map((p) => ({ id: p.id, qty: p.qty }))
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        dispatch(finalizePurchase(data));
-      });
+    type: CLEAR_PRODUCTS
   };
 };
