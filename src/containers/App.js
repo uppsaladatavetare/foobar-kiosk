@@ -42,7 +42,7 @@ class App extends Component {
   render() {
     const { dispatch, products, account, purchase } = this.props;
     let selected = products.products.filter((p) => p.selected).length;
-    if(purchase.started) {
+    if(purchase.state == 'ONGOING' || purchase.state == 'PENDING') {
       return (
         <div id="container">
           <ProductList
@@ -55,6 +55,8 @@ class App extends Component {
             <div id="menubox"></div>
             <PurchaseButton
               products={products}
+              purchaseState={purchase.state}
+              accountBalance={account.balance}
               onPurchase={() => dispatch(requestPurchase())}
             />
           </div>
@@ -71,7 +73,7 @@ class App extends Component {
         </div>
       );
     }
-    else if(purchase.finalized) {
+    else if(purchase.state == 'FINALIZED') {
       return (
         <div id="container">
           <div id="start">
@@ -80,13 +82,13 @@ class App extends Component {
         </div>
       );
     }
-    else {
+    else /* if(purchase.state == 'WAITING') */ {
       return (
         <div id="container">
           <div id="start">
             <div>Blip a card linked with your account.</div>
             <div>or</div>
-            <div>Scan a product to start cash payment.</div>
+            <div>Scan a product to start a cash payment.</div>
             <span className="button" onClick={() => dispatch(login('154464990'))}>I like pies</span>
           </div>
         </div>

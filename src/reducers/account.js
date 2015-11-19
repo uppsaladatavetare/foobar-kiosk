@@ -5,17 +5,9 @@ import {
 export function account(state = {}, action) {
   switch (action.type) {
     case LOGIN_ACCOUNT:
-      return Object.assign({}, state, {
-        balance: action.data.balance,
-        id: action.data.id,
-        name: action.data.name
-      });
+      return Object.assign({}, state, action.data);
     case CLEAR_ACCOUNT:
-      return Object.assign({}, state, {
-        balance: undefined,
-        id: undefined,
-        name: undefined
-      });
+      return {};
     default:
       return state;
   };
