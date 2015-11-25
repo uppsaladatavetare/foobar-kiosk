@@ -4,8 +4,10 @@ import {
 
 export function account(state = {}, action) {
   switch (action.type) {
+    case REQUEST_ACCOUNT:
+      return Object.assign({}, state, { request: true });
     case LOGIN_ACCOUNT:
-      return Object.assign({}, state, action.data);
+      return Object.assign({}, state, (action.data ? action.data : { id: 1 }));
     case CLEAR_ACCOUNT:
       return {};
     default:

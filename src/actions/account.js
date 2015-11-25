@@ -20,20 +20,28 @@ export function receiveAccount(data) {
 };
 
 export function login(cardId) {
-  return dispatch => {
-    dispatch(requestAccount(cardId));
-    return fetch(`http://dev.foocash.me/api/accounts/${cardId}/`, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Token 03be53c1ab8f74edac76bd60695f84f089634c80'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      dispatch(receiveAccount(data));
-      dispatch(newPurchase());
-    });
+  return (dispatch, getState) => {
+    const { account } = getState();
+    if(!account.length) {
+      dispatch(requestAccount(cardId));
+      if(cardId) {
+        return fetch(`http://dev.foocash.me/api/accounts/${cardId}/`, {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Token 03be53c1ab8f74edac76bd60695f84f089634c80'
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            dispatch(newPurchase());
+            dispatch(receiveAccount(data));
+          });
+      } else {
+        dispatch(newPurchase());
+        dispatch(receiveAccount(null));
+      };
+    };
   };
 };
 

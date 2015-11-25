@@ -26,6 +26,14 @@ export function finalizePurchase(data) {
   };
 };
 
+export function clearPurchase() {
+  return dispatch => {
+    dispatch(clearProducts());
+    dispatch(clearAccount());
+    dispatch(endPurchase());
+  };
+};
+
 export function endPurchase() {
   return {
     type: END_PURCHASE
@@ -57,7 +65,7 @@ export function requestPurchase() {
         dispatch(clearAccount());
         dispatch(finalizePurchase(data));
         setTimeout(() => {
-          dispatch(endPurchase());
+          if(getState().purchase.state == 'FINALIZED') dispatch(endPurchase());
         }, 5000);
       });
   };

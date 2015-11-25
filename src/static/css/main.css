@@ -56,14 +56,28 @@ body {
   display:block;
   position:absolute
 }
+#container.white {
+  background:#ffffff;
+}
 #purchase {
   display:block;
   position:absolute;
   top:0;
+  bottom:60px;
   right:0;
   left:60px;
   padding:8px 0 8px 8px;
   transition:all .3s ease;
+}
+#purchase .info {
+  height:30px;
+  font-size:28px;
+  line-height:30px;
+  position:absolute;
+  top:50%;
+  width:100%;
+  margin-top:-15px;
+  text-align:center;
 }
 #purchase product {
   height:198px;
@@ -208,6 +222,10 @@ body {
 #account.active {
   opacity:1;
 }
+#account.single {
+  line-height:48px;
+  font-size:28px;
+}
 #menubox {
   bottom:60px;
   width:200px;
@@ -230,7 +248,7 @@ body {
   padding:0 16px;
   background:#3f619b;
 }
-#menubox span.button:hover {
+#menubox span.button:active {
   background:#25395b;
 }
 #menubox i.fa {
@@ -242,10 +260,10 @@ body {
   bottom:0;
   left:0;
 }
-#menu:hover, #menu.active {
+#menu:active, #menu.active {
   background:#3f619b;
 }
-#menu.active:hover {
+#menu.active:active {
   background:#25395b;
 }
 #menu .fa-bars {
@@ -283,8 +301,14 @@ body {
 #buy.active {
   background:#98db59;
 }
-#buy.active:hover {
+#buy.active:active {
   background:#6c9b3f;
+}
+#buy.alert {
+  background:#db1a1a;
+}
+#buy.alert:active {
+  background:#911111;
 }
 #buy i {
   float:right;
@@ -294,15 +318,11 @@ body {
   width:60px;
   background:#911111;
   position:absolute;
-  top:-60px;
-  right:-60px;
-  transition:top .3s ease, right 0.3s ease 0s;
-}
-#trash.active {
   top:0;
   right:0;
+  transition:top .3s ease, right 0.3s ease 0s;
 }
-#trash:hover {
+#trash:active {
   background:#db1a1a;
 }
 #trash .timer {
@@ -371,7 +391,7 @@ body {
   width:320px;
   transition:background .3s ease;
 }
-#alert .button:hover {
+#alert .button:active {
   background:#3f619b;
 }
 #overlay .start {
@@ -429,7 +449,7 @@ body {
   position:absolute;
   line-height:50px;
 }
-#overlay .history .scroll:hover {
+#overlay .history .scroll:active {
   color:#666666;
 }
 #overlay .history .scroll.up {
@@ -475,7 +495,7 @@ body {
   width:60px;
   background:none;
 }
-#edit span.button:hover {
+#edit span.button:active {
   background:none;
 }
 #edit .container {
@@ -493,7 +513,7 @@ body {
   opacity:1;
   cursor:pointer;
 }
-#edit.active .container span.button:hover {
+#edit.active .container span.button:active {
   color:#666666;
   background:none;
 }
@@ -530,7 +550,7 @@ body {
   color:#ffffff;
   cursor:pointer;
 }
-#edit span.up.active:hover, #edit span.down.active:hover {
+#edit span.up.active:active, #edit span.down.active:active {
   color:#666666;
 }
 #edit div.up {
@@ -539,8 +559,18 @@ body {
 #edit div.down {
   top:390px;
 }
+#loading {
+  background:rgba(0,0,0,0.5);
+  position:absolute;
+  width:80px;
+  height:70px;
+  top:50%;
+  margin:-35px auto 0;
+  left:0;
+  right:0;
+}
 .loading > div {
-  background-color:#333;
+  background-color:#1e1e1e;
   height:50px;
   width:8px;
   display:inline-block;
@@ -581,4 +611,30 @@ body {
   padding:0 18px;
   background:#1e1e1e;
   margin:30px 0;
+}
+#container > .loading {
+  width:60px;
+  position:absolute;
+  top:50%;
+  left:0;
+  right:0;
+  margin:-25px auto 0;
+}
+
+.product-enter {
+  opacity: 0.01;
+}
+
+.product-enter.product-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.product-leave {
+  opacity: 1;
+}
+
+.product-leave.product-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
 }

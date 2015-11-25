@@ -5,22 +5,22 @@ import {
 export function purchase(state = {state: 'WAITING'}, action) {
   switch (action.type) {
     case NEW_PURCHASE:
-      return Object.assign({}, state, {
+      return {
         state: 'ONGOING'
-      });
+      };
     case PENDING_PURCHASE:
-      return Object.assign({}, state, {
+      return {
         state: 'PENDING'
-      });
+      };
     case FINALIZE_PURCHASE:
-      return Object.assign({}, state, {
+      return {
         state: 'FINALIZED',
         cost: action.data.amount
-      });
+      };
     case END_PURCHASE:
-      return Object.assign({}, state, {
+      return {
         state: 'WAITING'
-      });
+      };
     default:
       return state;
   }

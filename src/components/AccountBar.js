@@ -2,17 +2,18 @@ import React, { PropTypes, Component } from 'react';
 
 export default class AccountBar extends Component {
   render() {
-    if (this.props.name) {
+    if (this.props.id == 1) {
+      return (
+        <div id="account" className="single">
+          <div className="name">Paying with cash</div>
+        </div>
+      );
+    } else {
       return (
         <div id="account">
           <div className="name">{this.props.name}</div>
           <div className="balance">Balance: {this.props.balance} kr</div>
         </div>
-      );
-    }
-    else {
-      return (
-        <div id="account">Loading...</div>
       );
     }
   }
