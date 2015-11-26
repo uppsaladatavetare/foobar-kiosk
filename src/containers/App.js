@@ -88,7 +88,7 @@ class App extends Component {
             scrollUpActive={products.page > 0}
             scrollDownActive={products.page < products.maxPage}
           />
-          <LoadingBox/>
+          <LoadingBox loading={purchase.state == 'PENDING'}/>
         </div>
       );
     }
@@ -124,6 +124,7 @@ class App extends Component {
             <div>Scan a product to start a cash payment.</div>
             <span className="button" onClick={() => dispatch(login('154464990'))}>I like pies</span>
           </div>
+          <LoadingBox loading={account.request}/>
         </div>
       );
     }
