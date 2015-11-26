@@ -56,7 +56,11 @@ export function requestPurchase() {
       },
       body: JSON.stringify({
         account_id: account.id,
-        products: products.products.map((p) => ({ id: p.id, qty: p.qty }))
+        products: products.products.filter(
+          (p) => (!p.loading && !p.failed)
+        ).map(
+          (p) => ({ id: p.id, qty: p.qty })
+        )
       })
     })
       .then(response => response.json())

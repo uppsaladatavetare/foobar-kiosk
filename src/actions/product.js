@@ -9,6 +9,7 @@ export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const PENDING_PURCHASE = 'PENDING_PURCHASE';
 export const FINALIZE_PURCHASE = 'FINALIZE_PURCHASE';
 export const CLEAR_PRODUCTS = 'CLEAR_PRODUCTS';
+export const FAILED_PRODUCT = 'FAILED_PRODUCT';
 
 class Cache {
   constructor() {
@@ -106,6 +107,11 @@ class ProductFetcher {
       if (data.length) {
         this.cache.add(ean, data[0], 5 * 60);
         dispatch(receiveProduct(data[0]))
+      } else {
+        dispatch(failedProduct(ean));
+        setTimeout(() => {
+          dispatch(removeProduct(ean));
+        }, 2000);
       }
       delete this.promises[ean];
     });
@@ -127,6 +133,12 @@ export function requestProduct(ean) {
     type: REQUEST_PRODUCT,
     ean
   };
+};
+export function failedProduct(ean) {
+  return {
+    type: FAILED_PRODUCT,
+    ean
+  }
 };
 
 export function receiveProduct(data) {
@@ -150,9 +162,10 @@ export function selectProduct(ean) {
   };
 };
 
-export function removeProduct() {
+export function removeProduct(ean) {
   return {
-    type: REMOVE_PRODUCT
+    type: REMOVE_PRODUCT,
+    ean
   };
 };
 

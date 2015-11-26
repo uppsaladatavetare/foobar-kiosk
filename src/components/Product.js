@@ -14,6 +14,12 @@ export default class Product extends Component {
             <div className="rekt5"/>
           </product>
       );
+    } else if(this.props.failed) {
+      return (
+        <product className="message">
+          <div>Unknown item</div>
+        </product>
+      );
     } else {
       return (
           <product className={this.props.selected && 'selected'}

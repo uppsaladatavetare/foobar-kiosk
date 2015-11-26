@@ -117,6 +117,12 @@ body {
     -webkit-transform:scale(0.0);
   }
 }
+#purchase product.message {
+  line-height:198px;
+  text-align:center;
+  font-size:20px;
+  font-weight:600;
+}
 #purchase product cell {
   font-size:20px;
   line-height:18px;
@@ -559,16 +565,6 @@ body {
 #edit div.down {
   top:390px;
 }
-#loading {
-  background:rgba(0,0,0,0.5);
-  position:absolute;
-  width:80px;
-  height:70px;
-  top:50%;
-  margin:-35px auto 0;
-  left:0;
-  right:0;
-}
 .loading > div {
   background-color:#1e1e1e;
   height:50px;
@@ -613,14 +609,20 @@ body {
   margin:30px 0;
 }
 #container > .loading {
-  width:60px;
+  background:#1e1e1e;
+  width:140px;
   position:absolute;
   top:50%;
   left:0;
   right:0;
-  margin:-25px auto 0;
+  margin:-60px auto 0;
+  text-align:center;
+  line-height:120px;
+  height:120px;
 }
-
+#container > .loading div {
+  background:#ffffff;
+}
 .product-enter {
   opacity: 0.01;
 }

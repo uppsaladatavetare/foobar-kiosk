@@ -9,9 +9,8 @@ export default class PurchaseButton extends Component {
       onPurchase
     } = this.props;
     let total = products.products
-      .filter((p) => !p.loading)
+      .filter((p) => !p.loading && !p.failed)
       .map((p) => p.price * p.qty).reduce((x, y) => x + y, 0);
-
     if(purchaseState == 'ONGOING') {
       if(total > 0 && (total <= accountBalance || !accountBalance)) {
         var buttonClass = 'active';

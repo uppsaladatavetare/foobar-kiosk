@@ -1,6 +1,6 @@
 import {
   ADD_PRODUCT, SELECT_PRODUCT, INCREASE_PRODUCT_QTY, REMOVE_PRODUCT,
-  REQUEST_PRODUCT, CHANGE_PAGE, CLEAR_PRODUCTS
+  REQUEST_PRODUCT, CHANGE_PAGE, CLEAR_PRODUCTS, FAILED_PRODUCT
 } from '../actions/product';
 
 function _products(state, action) {
@@ -66,12 +66,35 @@ function _products(state, action) {
         )
       });
     case REMOVE_PRODUCT:
-      return Object.assign({}, state, {
-        products: state.products.filter((p) => !p.selected)
-      });
+      if(action.ean) {
+        return Object.assign({}, state, {
+          products: state.products.filter((p) => !(p.ean == action.ean))
+        });
+      } else {
+        return Object.assign({}, state, {
+          products: state.products.filter((p) => !p.selected)
+        });
+      }
     case CLEAR_PRODUCTS:
       return Object.assign({}, state, {
         products: []
+      });
+    case FAILED_PRODUCT:
+      return Object.assign({}, state, {
+        products: state.products.map(
+          (p) => {
+            if (p.ean == action.ean) {
+              return {
+                ...p,
+                failed: true,
+                loading: false,
+              }
+            }
+            else {
+              return p;
+            }
+          }
+        )
       });
     default:
       return state;
@@ -104,6 +127,12 @@ export function products(state = {products: [], page: 0}, action) {
     case CHANGE_PAGE:
       return Object.assign({}, newState, {
         page: Math.max(0, Math.min(newState.page + action.count, maxPage))
+      });
+    case CLEAR_PRODUCTS:
+      if (newState.page < maxPage)
+        return newState;
+      return Object.assign({}, newState, {
+        page: maxPage
       });
     default:
       return newState;
