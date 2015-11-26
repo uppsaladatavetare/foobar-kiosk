@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 
 export default class AccountBar extends Component {
   render() {
-    if (this.props.id == 1) {
+    if (this.props.id == null) {
       return (
         <div id="account" className="single">
           <div className="name">Paying with cash</div>

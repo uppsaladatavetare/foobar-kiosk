@@ -7,7 +7,7 @@ export function account(state = {}, action) {
     case REQUEST_ACCOUNT:
       return Object.assign({}, state, { request: true });
     case LOGIN_ACCOUNT:
-      return Object.assign({}, state, (action.data ? action.data : { id: 1 }));
+      return Object.assign({}, state, (action.data ? action.data : { id: null }));
     case CLEAR_ACCOUNT:
       return {};
     default:
