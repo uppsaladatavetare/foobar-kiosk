@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import { apiCall } from '../api';
 import { clearProducts } from './product';
 import { clearAccount } from './account';
 
@@ -47,13 +47,8 @@ export function requestPurchase() {
       account,
       products
     } = getState();
-    return fetch(`http://dev.foocash.me/api/purchases/`, {
+    return apiCall('/purchases/', {
       method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Token ###'
-      },
       body: JSON.stringify({
         account_id: account.id,
         products: products.products.filter(

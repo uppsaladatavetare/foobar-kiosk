@@ -1,5 +1,5 @@
-import fetch from 'isomorphic-fetch';
 import { newPurchase } from './purchase';
+import { apiCall } from '../api';
 
 export const REQUEST_ACCOUNT = 'REQUEST_ACCOUNT';
 export const LOGIN_ACCOUNT = 'LOGIN_ACCOUNT';
@@ -25,13 +25,7 @@ export function login(cardId) {
     if(!account.length) {
       dispatch(requestAccount(cardId));
       if(cardId) {
-        return fetch(`http://dev.foocash.me/api/accounts/${cardId}/`, {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Token 03be53c1ab8f74edac76bd60695f84f089634c80'
-          }
-        })
+        return apiCall(`/accounts/${cardId}/`)
           .then(response => response.json())
           .then(data => {
             dispatch(newPurchase());

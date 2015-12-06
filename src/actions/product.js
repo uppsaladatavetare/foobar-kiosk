@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import { apiCall } from '../api';
 
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const INCREASE_PRODUCT_QTY = 'INCREASE_PRODUCT_QTY';
@@ -70,15 +70,7 @@ class ProductFetcher {
       dispatch(requestProduct(ean));
       dispatch(receiveProduct(this.cache.get(ean, true)));
 
-      this.promises[ean] = fetch(
-        `http://dev.foocash.me/api/products/?code=${ean}`, {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Token 03be53c1ab8f74edac76bd60695f84f089634c80'
-          }
-        }
-      )
+      this.promises[ean] = apiCall(`/products/?code=${ean}`)
       .then(response => response.json())
       .then(data => {
         if (data.length) {
@@ -93,15 +85,7 @@ class ProductFetcher {
     // product record not found in the cache, fetch it and dispatch
     // appropriate actions
     dispatch(requestProduct(ean));
-    this.promises[ean] = fetch(
-      `http://dev.foocash.me/api/products/?code=${ean}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Token 03be53c1ab8f74edac76bd60695f84f089634c80'
-        }
-      }
-    )
+    this.promises[ean] = apiCall(`/products/?code=${ean}`)
     .then(response => response.json())
     .then(data => {
       if (data.length) {

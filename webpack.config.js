@@ -15,7 +15,10 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      ENV: JSON.stringify(require(path.join(__dirname, process.env.SETTINGS)))
+    }),
   ],
   module: {
     loaders: [{
