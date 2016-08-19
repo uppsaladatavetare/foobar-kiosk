@@ -1,0 +1,4 @@
+pyserial==2.7
+pyusb==1.0.0b2
+requests==2.7.0
+thunderclient==1.0.1
