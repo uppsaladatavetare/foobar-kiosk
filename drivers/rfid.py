@@ -44,7 +44,7 @@ def parse_codes(ser):
             yield code
 
 
-def main(dev, rate, host, port, channel, verbose):
+def main(device, rate, host, port, channel, verbose):
     # Configure logging to the console if requested.
     if verbose:
         handler = logging.StreamHandler()
@@ -57,8 +57,8 @@ def main(dev, rate, host, port, channel, verbose):
         port=port
     )
 
-    logger.debug('Starting reading from %s with baud rate %d.', dev, rate)
-    with serial.Serial(dev, rate) as ser:
+    logger.debug('Starting reading from %s with baud rate %d.', device, rate)
+    with serial.Serial(device, rate) as ser:
         # Discard the first value as it contains just a welcome message
         ser.readline()
         logger.debug('The connection has been estabilished and the '
