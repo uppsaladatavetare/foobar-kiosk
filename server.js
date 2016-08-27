@@ -1,24 +1,33 @@
 var webpack = require('webpack');
-var webpackDevMiddleware = require('webpack-dev-middleware');
-var webpackHotMiddleware = require('webpack-hot-middleware');
+var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 
-var express = new require('express');
-var app = express();
-var port = 3000;
+new WebpackDevServer(webpack(config), {
+    publicPath: config.output.publicPath,
+    inline: true,
+    hot: true,
+    historyApiFallback: true,
+    stats: {
+    hideModules: true,
+        colors: true,
+        hash: false,
+        version: false,
+        timings: true,
+        assets: true,
+        chunks: false,
+        modules: false,
+        reasons: false,
+        children: false,
+        source: false,
+        errors: true,
+        errorDetails: true,
+        warnings: true,
+        publicPath: false
+    }
+}).listen(3000, '0.0.0.0', function (err, result) {
+    if (err) {
+        console.log(err);
+    }
 
-var compiler = webpack(config);
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
-app.use(webpackHotMiddleware(compiler));
-app.use(express.static('src/static'));
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + '/src/index.html');
-});
-
-app.listen(port, 'localhost', function(error) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
-  }
+    console.log('Listening at http://localhost:3000');
 });

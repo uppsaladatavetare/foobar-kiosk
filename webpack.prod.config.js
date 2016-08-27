@@ -1,14 +1,11 @@
 const path = require("path");
 const webpack = require("webpack");
 const autoprefixer = require("autoprefixer");
-const ForkCheckerPlugin = require("awesome-typescript-loader").ForkCheckerPlugin;
 
 const config = require(process.env.SETTINGS || "./config");
 
 module.exports = {
     entry: [
-        "webpack-dev-server/client?http://localhost:3000",
-        "webpack/hot/only-dev-server",
         path.resolve("src/App")
     ],
     output: {
@@ -31,7 +28,7 @@ module.exports = {
         }],
         loaders: [{
             test: /\.tsx?$/,
-            loaders: ["react-hot", "awesome-typescript"],
+            loader: "awesome-typescript",
             exclude: /node_modules/
         }, {
             test: /(\.scss|\.css)$/,
@@ -56,14 +53,18 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new ForkCheckerPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false,
+                drop_console: true
+            }
+        }),
+        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             "process.env": {
-                NODE_ENV: JSON.stringify("development"),
+                NODE_ENV: JSON.stringify("production"),
                 API: JSON.stringify(config.api)
             }
         })
-    ],
-    devtool: "eval"
+    ]
 };
