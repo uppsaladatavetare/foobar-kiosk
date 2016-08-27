@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "bundle",
+    "outDir": "build",
     "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
     "noImplicitAny": true,

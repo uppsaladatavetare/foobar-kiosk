@@ -12,8 +12,8 @@ module.exports = {
         path.resolve("src/App")
     ],
     output: {
-        path: path.resolve("bundle"),
-        filename: "bundle.js",
+        path: path.resolve("build"),
+        filename: "build.js",
         publicPath: "/"
     },
     resolve: {
