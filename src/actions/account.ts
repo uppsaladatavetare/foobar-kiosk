@@ -1,4 +1,5 @@
 import { apiCall } from "api";
+import { IAccount } from "types";
 
 import { newPurchase } from "actions/purchase";
 
@@ -9,34 +10,37 @@ export const CLEAR_ACCOUNT = "CLEAR_ACCOUNT";
 export function requestAccount(cardId: string) {
     return {
         type: REQUEST_ACCOUNT,
-        cardId: cardId
+        cardId
     };
 };
 
-export function receiveAccount(data: any) {
+export function receiveAccount(data: IAccount = undefined) {
     return {
         type: LOGIN_ACCOUNT,
-        data: data
+        data
     };
 };
 
-export function login(cardId: string) {
-    return (dispatch: any, getState: any) => {
+export function login(cardId: string = undefined) {
+    return (dispatch: Function, getState: any) => {
         const { account, purchase } = getState();
+
         if (!account.length && purchase.state === "WAITING") {
             dispatch(requestAccount(cardId));
             if (cardId) {
                 return apiCall(`/accounts/${cardId}/`)
-                    .then(response => response.json())
-                    .then(data => {
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data: IAccount) => {
                         dispatch(newPurchase());
                         dispatch(receiveAccount(data));
                     });
             } else {
                 dispatch(newPurchase());
-                dispatch(receiveAccount(null));
-            };
-        };
+                dispatch(receiveAccount());
+            }
+        }
     };
 };
 

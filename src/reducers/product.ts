@@ -1,4 +1,5 @@
 import * as Redux from "redux";
+import { IProduct } from "types";
 
 import {
     ADD_PRODUCT,
@@ -13,113 +14,111 @@ import {
 
 const objectAssign = require("object-assign");
 
-interface StateProps {
-    products: any;
+interface IState {
+    products: IProduct[];
     page: number;
 }
 
-interface ActionProps extends Redux.Action {
-    id: string;
-    name: string;
-    ean: string;
-    code: string;
-    price: number;
-    image: string;
+interface IAction extends Redux.Action, IProduct {
     count?: number;
+    product?: IProduct;
 }
 
-function _products(state: StateProps, action: ActionProps) {
-    let product: any;
-
+function _products(state: IState, action: IAction) {
     switch (action.type) {
         case REQUEST_PRODUCT:
-            product = state.products.find((product: any) => {
-                return product.ean === action.ean;
-            });
+            let productIndex: number = state.products.map((product: IProduct) => {
+                return product.code;
+            }).indexOf(action.code);
 
-            if (!product) {
+            if (productIndex === -1) {
                 return objectAssign({}, state, {
                     products: [...state.products, {
-                        ean: action.ean,
+                        code: action.code,
                         selected: false,
                         loading: true
                     }]
                 });
-            } else {
-                return state;
             }
+
+            return state;
         case ADD_PRODUCT:
-            product = state.products.find((product: any) => {
-                return product.ean === action.code;
-            });
+            console.log(state.products);
+            let product: IProduct = state.products.filter((product: IProduct) => {
+                console.log(product.code, action.product.code);
+                return product.code === action.product.code;
+            })[0];
 
             if (product.loading) {
                 return objectAssign({}, state, {
-                    products: state.products.map((product: any) => {
-                        if (product.ean === action.code) {
+                    products: state.products.map((product: IProduct) => {
+                        if (product.code === action.product.code) {
                             return objectAssign(product, {
-                                id: action.id,
-                                name: action.name,
+                                id: action.product.id,
+                                name: action.product.name,
                                 selected: false,
                                 loading: false,
                                 qty: 1,
-                                price: action.price,
-                                image: `http://dev.foocash.me${action.image}`
+                                price: action.product.price,
+                                image: "http://dev.foocash.me" + action.product.image
                             });
                         } else {
                             return product;
                         }
                     })
                 });
-            } else {
-                return objectAssign({}, state, {
-                    products: state.products.map((product: any) => {
-                        return objectAssign(product, {
-                            qty: product.qty + (product.ean === action.code ? 1 : 0)
-                        });
-                    })
-                });
             }
+
+            return objectAssign({}, state, {
+                products: state.products.map((product: IProduct) => {
+                    if (product.code === action.product.code) {
+                        return objectAssign(product, {
+                            qty: product.qty + 1
+                        });
+                    }
+                    return product;
+                })
+            });
         case SELECT_PRODUCT:
             return objectAssign({}, state, {
-                products: state.products.map((product: any) => {
+                products: state.products.map((product: IProduct) => {
                     return objectAssign(product, {
-                        selected: (product.ean === action.ean ? !product.selected : product.selected)
+                        selected: (product.code === action.code ? !product.selected : product.selected)
                     });
                 })
             });
         case INCREASE_PRODUCT_QTY:
             return objectAssign({}, state, {
-                products: state.products.map((product: any) => {
+                products: state.products.map((product: IProduct) => {
                     return objectAssign(product, {
                         qty: product.qty + (product.selected ? action.count : 0)
                     });
-                }).filter((product: any) => {
+                }).filter((product: IProduct) => {
                     return product.qty > 0;
                 })
             });
         case REMOVE_PRODUCT:
-            if (action.ean) {
+            if (action.code) {
                 return objectAssign({}, state, {
-                    products: state.products.filter((product: any) => {
-                        return product.ean !== action.ean;
-                    })
-                });
-            } else {
-                return objectAssign({}, state, {
-                    products: state.products.filter((product: any) => {
-                        return !product.selected;
+                    products: state.products.filter((product: IProduct) => {
+                        return product.code !== action.code;
                     })
                 });
             }
+
+            return objectAssign({}, state, {
+                products: state.products.filter((product: IProduct) => {
+                    return !product.selected;
+                })
+            });
         case CLEAR_PRODUCTS:
             return objectAssign({}, state, {
                 products: []
             });
         case FAILED_PRODUCT:
             return objectAssign({}, state, {
-                products: state.products.map((product: any) => {
-                    if (product.ean === action.ean) {
+                products: state.products.map((product: IProduct) => {
+                    if (product.code === action.code) {
                         return objectAssign(product, {
                             failed: true,
                             loading: false
@@ -134,7 +133,7 @@ function _products(state: StateProps, action: ActionProps) {
     }
 }
 
-export function products(state: StateProps = { products: [], page: 0 }, action: ActionProps) {
+export function products(state: IState = { products: [], page: 0 }, action: IAction) {
     let newState = _products(state, action);
     let newProductAdded = newState.products.length > state.products.length;
     let maxPage = Math.max(0, Math.floor((newState.products.length - 4) / 3));

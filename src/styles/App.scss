@@ -1,0 +1,86 @@
+@import "styles/globals";
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Open Sans"), local("OpenSans"), url("/static/fonts/OpenSans.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 600;
+    src: local("Open Sans Semibold"), local("OpenSans-Semibold"), url("/static/fonts/OpenSans-Semibold.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    user-select: none;
+    user-drag: none;
+    outline: 0;
+}
+html {
+    font-size: 12px;
+    font-family: "Open Sans", sans-serif;
+}
+body {
+    user-select: none;
+    user-drag: none;
+}
+.container {
+    background: #88a0a8;
+    height: 480px;
+    width: 800px;
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    &.white {
+        background: $white;
+    }
+    &.start {
+        font-size: 28px;
+    }
+}
+.quit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    .timer {
+        background: #db1a1a !important;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+.overlay {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+.product-enter {
+    opacity:  0.01;
+}
+
+.product-enter.product-enter-active {
+    opacity:  1;
+    transition:  opacity 500ms ease-in;
+}
+
+.product-leave {
+    opacity:  1;
+}
+
+.product-leave.product-leave-active {
+    opacity:  0.01;
+    transition:  opacity 300ms ease-in;
+}

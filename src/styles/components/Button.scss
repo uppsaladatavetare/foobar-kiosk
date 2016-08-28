@@ -1,0 +1,36 @@
+@import "styles/globals";
+
+.button {
+    cursor: pointer;
+    color: $white;
+    height: 60px;
+    font-size: 28px;
+    min-width: 60px;
+    background: $black;
+    transition: background 0.3s ease;
+    font-weight: 600;
+    &:hover:not(.disabled),
+    &:active:not(.disabled) {
+        background: $grey-dark;
+    }
+    &.disabled {
+        background: $grey-dark;
+        color: $grey;
+        cursor: default;
+    }
+    &.active {
+        background: $green;
+        &:hover,
+        &:active {
+            background: $green-dark;
+        }
+    }
+    &.alert {
+        background: $red;
+        color: $white;
+        &:hover,
+        &:active {
+            background: $red-dark;
+        }
+    }
+}

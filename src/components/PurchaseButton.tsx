@@ -1,44 +1,46 @@
 import * as React from "react";
-import * as classNames from "classnames";
+import { IProductState, IProduct } from "types";
 
-interface Props {
-    products: any;
+import { Button } from "components";
+
+import * as style from "styles/components/PurchaseButton.scss";
+
+interface IPurchaseButtonProps {
+    products: IProductState;
     purchaseState: any;
     accountBalance: any;
     onPurchase: Function;
 }
 
-export default class PurchaseButton extends React.Component<Props, {}> {
+export default class PurchaseButton extends React.Component<IPurchaseButtonProps, {}> {
     render() {
-        const {
-            products,
-            purchaseState,
-            accountBalance,
-            onPurchase
-        } = this.props;
+        const { products, purchaseState, accountBalance, onPurchase } = this.props;
 
-        let total = products.products.filter((product: any) => {
+        let total = products.products.filter((product: IProduct) => {
             return !product.loading && !product.failed;
-        }).map((product: any) => {
+        }).map((product: IProduct) => {
             return product.price * product.qty;
         }).reduce((x: number, y: number) => x + y, 0);
 
-        let buttonClass = "";
+        let active = false;
+        let alert = false;
         if (purchaseState === "ONGOING") {
             if (total > 0 && (total <= accountBalance || !accountBalance)) {
-                buttonClass = "active";
+                active = true;
             } else if (total > 0 && total > accountBalance) {
-                buttonClass = "alert";
+                alert = true;
             }
         }
 
         return (
-            <span
-                id="buy"
-                className={classNames("button", buttonClass)}
-                onClick={(buttonClass === "active" ? () => onPurchase() : undefined)}>
-                {total} kr <i className="fa fa-shopping-cart"></i>
-            </span>
+            <Button
+                label={total + " kr"}
+                icon="shopping-cart"
+                className={style.button}
+                disabled={!active}
+                success={active}
+                alert={alert}
+                onClick={(active ? () => onPurchase() : undefined)}/>
         );
     }
 }

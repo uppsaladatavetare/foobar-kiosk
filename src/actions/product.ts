@@ -1,8 +1,7 @@
 import { apiCall } from "api";
+import { IProduct } from "types";
 
 import { login } from "actions/account";
-
-const objectAssign = require("object-assign");
 
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const INCREASE_PRODUCT_QTY = "INCREASE_PRODUCT_QTY";
@@ -28,7 +27,7 @@ class Cache {
 
     hasExpired(key: string) {
         if (!(key in this.cache)) {
-            return null;
+            return undefined;
         } else {
             return (new Date()) >= this.cache[key].expires;
         }
@@ -45,11 +44,13 @@ class Cache {
     }
 
     get(key: string, allowExpired = false) {
-        if (!allowExpired && this.hasKey(key))
+        if (!allowExpired && this.hasKey(key)) {
             return this.cache[key].data;
-        if (allowExpired && key in this.cache)
+        }
+        if (allowExpired && key in this.cache) {
             return this.cache[key].data;
-        return null;
+        }
+        return undefined;
     }
 }
 
@@ -57,117 +58,117 @@ class ProductFetcher {
     cache = new Cache();
     promises = {};
 
-    productWithEAN(dispatch: any, ean: string) {
-        if (this.cache.hasKey(ean)) {
-            let product = this.cache.get(ean);
-            dispatch(requestProduct(ean));
+    productWithCode(dispatch: Function, code: string) {
+        if (this.cache.hasKey(code)) {
+            let product = this.cache.get(code);
+            dispatch(requestProduct(code));
             dispatch(receiveProduct(product));
             return;
         }
-        if (ean in this.promises) {
+        if (code in this.promises) {
             // fetching of the product in progress
-            return this.promises[ean];
+            return this.promises[code];
         }
-        if (this.cache.hasKey(ean, true)) {
+        if (this.cache.hasKey(code, true)) {
             // the product record has expired, but use it anyway
             // and refresh it in background
-            dispatch(requestProduct(ean));
-            dispatch(receiveProduct(this.cache.get(ean, true)));
+            dispatch(requestProduct(code));
+            dispatch(receiveProduct(this.cache.get(code, true)));
 
-            this.promises[ean] = apiCall(`/products/?code=${ean}`)
+            this.promises[code] = apiCall(`/products/?code=${code}`)
                 .then((response: any) => {
                     return response.json();
                 })
                 .then((data: any) => {
                     if (data.length) {
-                        this.cache.add(ean, data[0], 5 * 60);
+                        this.cache.add(code, data[0], 5 * 60);
                     }
-                    delete this.promises[ean];
+                    delete this.promises[code];
                 });
 
-            return this.promises[ean];
+            return this.promises[code];
         }
 
         // product record not found in the cache, fetch it and dispatch
         // appropriate actions
-        dispatch(requestProduct(ean));
-        this.promises[ean] = apiCall(`/products/?code=${ean}`)
-            .then((response: any) => {
+        dispatch(requestProduct(code));
+        this.promises[code] = apiCall(`/products/?code=${code}`)
+            .then((response: IResponse) => {
                 return response.json();
             })
-            .then((data: any) => {
+            .then((data: IProduct[]) => {
                 if (data.length) {
-                    this.cache.add(ean, data[0], 5 * 60);
+                    this.cache.add(code, data[0], 5 * 60);
                     dispatch(receiveProduct(data[0]));
                 } else {
-                    dispatch(failedProduct(ean));
-                    setTimeout(() => {
-                        dispatch(removeProduct(ean));
-                    }, 2000);
+                    dispatch(failedProduct(code));
+                    setTimeout(() => dispatch(removeProduct(code)), 2000);
                 }
-                delete this.promises[ean];
+                delete this.promises[code];
             });
 
-        return this.promises[ean];
+        return this.promises[code];
     }
 }
 
 let fetcher = new ProductFetcher();
 
-export function addProduct(ean: string) {
-    return (dispatch: Function, getState: any) => {
+export function addProduct(code: string) {
+    return (dispatch: Function, getState: Function) => {
         const { purchase } = getState();
+
         if (purchase.state === "WAITING" || purchase.state === "ONGOING") {
-            dispatch(login(null));
-            return fetcher.productWithEAN(dispatch, ean);
+            dispatch(login());
+            return fetcher.productWithCode(dispatch, code);
         }
     };
 };
 
-export function requestProduct(ean: string) {
+export function requestProduct(code: string) {
     return {
         type: REQUEST_PRODUCT,
-        ean: ean
+        code
     };
 };
-export function failedProduct(ean: string) {
+export function failedProduct(code: string) {
     return {
         type: FAILED_PRODUCT,
-        ean: ean
+        code
     };
 };
 
-export function receiveProduct(data: any) {
-    return objectAssign({
+export function receiveProduct(product: IProduct) {
+    return {
         type: ADD_PRODUCT,
-    }, data);
+        product
+    };
 };
 
 export function increaseProductQty(count: number) {
     return {
         type: INCREASE_PRODUCT_QTY,
-        count: count
+        count
     };
 };
 
-export function selectProduct(ean: string) {
+export function selectProduct(code: string) {
     return {
         type: SELECT_PRODUCT,
-        ean: ean
+        code
     };
 };
 
-export function removeProduct(ean?: string) {
+export function removeProduct(code?: string) {
     return {
         type: REMOVE_PRODUCT,
-        ean: ean
+        code
     };
 };
 
 export function changePage(count: number) {
     return {
         type: CHANGE_PAGE,
-        count: count
+        count
     };
 };
 

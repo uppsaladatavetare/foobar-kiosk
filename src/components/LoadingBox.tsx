@@ -1,23 +1,22 @@
 import * as React from "react";
+import * as classNames from "classnames";
 
-interface Props {
-    loading: boolean;
+import * as style from "styles/components/LoadingBox.scss";
+
+interface ILoadingBoxProps {
+    className?: string;
 }
 
-export default class LoadingBox extends React.Component<Props, {}> {
+export default class LoadingBox extends React.Component<ILoadingBoxProps, {}> {
     render() {
-        if (this.props.loading) {
-            return (
-                <div id="loading" className="loading">
-                    <div className="rekt1"/>
-                    <div className="rekt2"/>
-                    <div className="rekt3"/>
-                    <div className="rekt4"/>
-                    <div className="rekt5"/>
-                </div>
-            );
-        } else {
-            return null;
-        };
-    };
+        return (
+            <div className={classNames(style.loading, this.props.className)}>
+                <div/>
+                <div/>
+                <div/>
+                <div/>
+                <div/>
+            </div>
+        );
+    }
 };

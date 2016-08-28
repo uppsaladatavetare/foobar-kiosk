@@ -2,18 +2,18 @@ import * as Redux from "redux";
 
 import { NEW_PURCHASE, PENDING_PURCHASE, FINALIZE_PURCHASE, END_PURCHASE } from "actions/purchase";
 
-interface StateProps {
+interface IState {
     state: string;
     cost?: number;
 }
 
-interface ActionProps extends Redux.Action {
+interface IAction extends Redux.Action {
     data: {
         amount?: number;
     };
 }
 
-export function purchase(state: StateProps = { state: "WAITING" }, action: ActionProps) {
+export function purchase(state: IState = { state: "WAITING" }, action: IAction) {
     switch (action.type) {
         case NEW_PURCHASE:
             return {

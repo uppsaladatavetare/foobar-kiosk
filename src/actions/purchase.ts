@@ -1,4 +1,5 @@
 import { apiCall } from "api";
+import { IProduct } from "types";
 
 import { clearProducts } from "actions/product";
 import { clearAccount } from "actions/account";
@@ -28,7 +29,7 @@ export function finalizePurchase(data: any) {
 };
 
 export function clearPurchase() {
-    return (dispatch: any) => {
+    return (dispatch: Function) => {
         dispatch(clearProducts());
         dispatch(clearAccount());
         dispatch(endPurchase());
@@ -42,19 +43,17 @@ export function endPurchase() {
 };
 
 export function requestPurchase() {
-    return (dispatch: any, getState: any) => {
+    return (dispatch: Function, getState: Function) => {
         dispatch(pendingPurchase());
-        const {
-            account,
-            products
-        } = getState();
+        const { account, products } = getState();
+
         return apiCall("/purchases/", {
             method: "post",
             body: JSON.stringify({
-                account_id: account.id,
-                products: products.products.filter((product: any) => {
+                account_id: (account.id ? account.id : null), // tslint:disable-line
+                products: products.products.filter((product: IProduct) => {
                     return !product.loading && !product.failed;
-                }).map((product: any) => {
+                }).map((product: IProduct) => {
                     return {
                         id: product.id,
                         qty: product.qty
@@ -62,13 +61,17 @@ export function requestPurchase() {
                 })
             })
         })
-            .then(response => response.json())
-            .then(data => {
+            .then((response: IResponse) => {
+                return response.json();
+            })
+            .then((data: any) => {
                 dispatch(clearProducts());
                 dispatch(clearAccount());
                 dispatch(finalizePurchase(data));
                 setTimeout(() => {
-                    if (getState().purchase.state === "FINALIZED") dispatch(endPurchase());
+                    if (getState().purchase.state === "FINALIZED") {
+                        dispatch(endPurchase());
+                    }
                 }, 5000);
             });
     };

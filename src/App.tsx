@@ -2,44 +2,40 @@ declare const Thunder: any;
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { render } from "react-dom";
-import { Provider } from "react-redux";
-import { connect } from "react-redux";
+import * as classNames from "classnames";
+import { Provider, connect } from "react-redux";
+import { IProduct } from "types";
 
 import configureStore from "store/configureStore";
 import { login } from "actions/account";
 import { requestPurchase, clearPurchase, endPurchase } from "actions/purchase";
 import { addProduct, removeProduct, selectProduct, increaseProductQty, changePage } from "actions/product";
 
-import ProductList from "components/ProductList";
-import PurchaseButton from "components/PurchaseButton";
-import AccountBar from "components/AccountBar";
-import ButtonBar from "components/ButtonBar";
-import LoadingBox from "components/LoadingBox";
+import { Flex, Box } from "reflexbox";
+import { ProductList, PurchaseButton, Account, Sidebar, LoadingBox, Button } from "components";
 
-interface Props {
+import * as style from "styles/App.scss";
+
+interface IAppProps {
     dispatch: Function;
-    products: any;
+    products: {
+        type: string;
+        page: number;
+        products: IProduct[];
+        maxPage?: number;
+    };
     account: any;
     purchase: any;
 }
 
-class App extends React.Component<Props, {}> {
-    componentDidMount() {
-        const { dispatch } = this.props;
-        // dispatch(login("154464990"));
-        Thunder.connect("localhost:8080", "foobar", ["products", "cards"]);
-        Thunder.listen((data: any) => {
-            if (data.channel === "products") {
-                dispatch(addProduct(JSON.parse(data.payload)));
-            } else if (data.channel === "cards") {
-                dispatch(login(data.payload));
-            }
-        });
-    }
+interface IThunder {
+    channel: string;
+    payload: string;
+}
 
+class App extends React.Component<IAppProps, {}> {
     addRandomProduct() {
-        let eans = [
+        let codes = [
             "7310500088853",
             "7340083438684",
             "7611612221351",
@@ -49,8 +45,22 @@ class App extends React.Component<Props, {}> {
             "7622300342753"
         ];
 
-        let randomIndex = Math.floor(Math.random() * eans.length);
-        this.props.dispatch(addProduct(eans[randomIndex]));
+        let randomIndex = Math.floor(Math.random() * codes.length);
+        this.props.dispatch(addProduct(codes[randomIndex]));
+    }
+
+    componentDidMount() {
+        const { dispatch } = this.props;
+
+        // dispatch(login("154464990"));
+        Thunder.connect("localhost:8080", "foobar", ["products", "cards"]);
+        Thunder.listen((data: IThunder) => {
+            if (data.channel === "products") {
+                dispatch(addProduct(JSON.parse(data.payload)));
+            } else if (data.channel === "cards") {
+                dispatch(login(data.payload));
+            }
+        });
     }
 
     render() {
@@ -60,79 +70,75 @@ class App extends React.Component<Props, {}> {
             return product.selected;
         }).length;
 
-        if ((purchase.state === "ONGOING" || purchase.state === "PENDING")) {
+        if (purchase.state === "ONGOING" || purchase.state === "PENDING") {
             return (
-                <div id="container">
-                    <ProductList
-                        products={products}
-                        onSelect={(ean: string) => dispatch(selectProduct(ean))}/>
-                    <span id="trash" className="button" onClick={() => dispatch(clearPurchase())}>
-                        <i className="fa fa-times"></i>
-                    </span>
-                    <span style={{ position: "absolute", bottom: 0, zIndex: 99 }} className="button" onClick={() => this.addRandomProduct()}>
-                        <i className="fa fa-plus"></i>
-                    </span>
-                    <div id="sidebar">
-                        <AccountBar {...account} />
-                        <div id="menubox"></div>
-                        <PurchaseButton
-                            products={products}
-                            purchaseState={purchase.state}
-                            accountBalance={account.balance}
-                            onPurchase={() => dispatch(requestPurchase())}
-                            />
-                    </div>
-                    <ButtonBar
+                <Flex className={style.container}>
+                    <Sidebar
                         onIncrease={() => dispatch(increaseProductQty(1))}
                         onDecrease={() => dispatch(increaseProductQty(-1))}
                         onRemove={() => dispatch(removeProduct())}
                         onScrollUp={() => dispatch(changePage(-1))}
                         onScrollDown={() => dispatch(changePage(1))}
+                        addRandomProduct={() => this.addRandomProduct()}
                         active={selected > 0}
                         scrollUpActive={products.page > 0}
-                        scrollDownActive={products.page < products.maxPage}
-                        />
-                    <LoadingBox loading={purchase.state === "PENDING"}/>
-                </div>
+                        scrollDownActive={products.page < products.maxPage}/>
+                    <Flex column auto>
+                        <ProductList
+                            products={products}
+                            onSelect={(code: string) => dispatch(selectProduct(code))}/>
+                        <Flex>
+                            <Account {...account} />
+                            <PurchaseButton
+                                products={products}
+                                purchaseState={purchase.state}
+                                accountBalance={account.balance}
+                                onPurchase={() => dispatch(requestPurchase())}/>
+                        </Flex>
+                    </Flex>
+                    <Button icon="times" alert className={style.quit} onClick={() => dispatch(clearPurchase())}/>
+                    {(purchase.state === "PENDING" ? <LoadingBox/> : undefined)}
+                </Flex>
             );
-        }
-        else if (purchase.state === "ONGOING") {
+        } else if (purchase.state === "ONGOING") {
             return (
-                <div id="container" className="white">
-                    <div className="loading">
-                        <div className="rekt1"/>
-                        <div className="rekt2"/>
-                        <div className="rekt3"/>
-                        <div className="rekt4"/>
-                        <div className="rekt5"/>
-                    </div>
-                </div>
+                <Flex className={classNames(style.container, style.white)}>
+                    <LoadingBox/>
+                </Flex>
             );
-        }
-        else if (purchase.state === "FINALIZED") {
+        } else if (purchase.state === "FINALIZED") {
             return (
-                <div id="container">
-                    <div id="start">
-                        <div>Total cost of purchase was {purchase.cost} kr.</div>
-                        <span className="button" onClick={() => dispatch(endPurchase())}>Okay</span>
-                    </div>
-                </div>
+                <Flex
+                    column
+                    align="center"
+                    justify="center"
+                    className={classNames(style.container, style.start)}>
+                    <Box py={1}>Total cost of the purchase was {purchase.cost} kr</Box>
+                    <Box py={1}>Thank you for you purchase</Box>
+                    <Box py={1}><Button label="Okay" onClick={() => dispatch(endPurchase())}/></Box>
+                </Flex>
             );
-        }
-        else /* if(purchase.state === "WAITING") */ {
+        } else /* if(purchase.state === "WAITING") */ {
             return (
-                <div id="container">
-                    <div id="start">
-                        <span style={{ position: "absolute", bottom: 0, zIndex: 99 }} className="button" onClick={() => this.addRandomProduct()}>
-                            <i className="fa fa-plus"></i>
-                        </span>
-                        <div>Blip a card linked with your account.</div>
-                        <div>or</div>
-                        <div>Scan a product to start a cash payment.</div>
-                        <span className="button" onClick={() => dispatch(login("154464990"))}>I like pies</span>
-                    </div>
-                    <LoadingBox loading={account.request}/>
-                </div>
+                <Flex
+                    column
+                    align="center"
+                    justify="center"
+                    className={classNames(style.container, style.start)}>
+                    <Box py={1}>Blip a card linked with your account</Box>
+                    <Box py={1}>or</Box>
+                    <Box py={1}>Scan a product to start a cash payment</Box>
+                    {(process.env.NODE_ENV === "development" ? (
+                        <Box py={1}><Button label="dev cash buy" onClick={() => this.addRandomProduct()}/></Box>
+                    ) : undefined)}
+                    {(process.env.NODE_ENV === "development" ? (
+                        <Box py={1}>
+                            <Button label="dev account buy" onClick={() => dispatch(login("154464990"))}/>
+                        </Box>
+                    ) : undefined)}
+                    {(account.request ? <LoadingBox/> : undefined)}
+                    {(account.request ? <Box className={style.overlay}/> : undefined)}
+                </Flex>
             );
         }
     }
