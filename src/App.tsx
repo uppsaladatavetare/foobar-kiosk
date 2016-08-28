@@ -114,7 +114,7 @@ class App extends React.Component<IAppProps, {}> {
                     justify="center"
                     className={classNames(style.container, style.start)}>
                     <Box py={1}>Total cost of the purchase was {purchase.cost} kr</Box>
-                    <Box py={1}>Thank you for you purchase</Box>
+                    <Box py={1}>Thank you for your purchase</Box>
                     <Box py={1}><Button label="Okay" onClick={() => dispatch(endPurchase())}/></Box>
                 </Flex>
             );
