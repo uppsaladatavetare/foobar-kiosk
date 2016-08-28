@@ -25,7 +25,7 @@ export function login(cardId: string = undefined) {
     return (dispatch: Function, getState: any) => {
         const { account, purchase } = getState();
 
-        if (!account.length && purchase.state === "WAITING") {
+        if (!account.length) {
             dispatch(requestAccount(cardId));
             if (cardId) {
                 return apiCall(`/accounts/${cardId}/`)

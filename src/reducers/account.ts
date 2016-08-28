@@ -17,7 +17,7 @@ export function account(state: IState = {}, action: IAction) {
                 request: true
             });
         case LOGIN_ACCOUNT:
-            return objectAssign({}, state, (action.data ? action.data : {}));
+            return action.data ? action.data : {};
         case CLEAR_ACCOUNT:
             return {};
         default:
