@@ -1,0 +1,12 @@
+---
+- name: Restart
+  command: /sbin/shutdown -r +0 'Ansible Reboot triggered'
+  async: 0
+  poll: 0
+  ignore_errors: true
+  become: true
+
+- name: Wait for restart to finish
+  local_action: wait_for host={{ ansible_host }} state=started
+                delay=1 connect_timeout=3
+  become: false

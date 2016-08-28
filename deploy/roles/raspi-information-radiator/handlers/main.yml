@@ -1,0 +1,12 @@
+---
+- name: Restart
+  shell: reboot
+  async: 0
+  poll: 0
+  ignore_errors: true
+  become: yes
+
+- name: Wait for restart to finish
+  local_action: wait_for host={{ inventory_hostname }}
+                delay=1 state=started connect_timeout=3
+  become: no

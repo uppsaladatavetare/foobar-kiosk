@@ -1,0 +1,7 @@
+deploy_branch: master
+thunder_port: 8080
+thunder_publickey: publickey
+thunder_secretkey: secretkey
+remote_thunder_enabled: false
+rfid_device: /dev/ttyUSB0
+web_server_port: 8000

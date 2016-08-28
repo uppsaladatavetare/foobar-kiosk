@@ -1,4 +1,5 @@
 .DS_Store
+env/
 node_modules/
-config.js
+config
 build/build.js

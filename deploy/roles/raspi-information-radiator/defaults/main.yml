@@ -1,0 +1,4 @@
+---
+enable_remote_debugging: true
+hide_mouse_cursor: true
+framebuffer: /dev/fb1

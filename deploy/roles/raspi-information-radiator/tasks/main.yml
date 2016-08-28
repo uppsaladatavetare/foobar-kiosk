@@ -1,0 +1,53 @@
+---
+- name: Remove lightdm
+  apt: pkg=lightdm state=absent
+  become: yes
+
+- name: Add apt key
+  apt_key: url=http://bintray.com/user/downloadSubjectPublicKey?username=bintray state=present
+  become: yes
+
+- name: Add apt repository
+  apt_repository: repo='deb http://dl.bintray.com/kusti8/chromium-rpi jessie main' state=present
+  become: yes
+
+- name: Update packages
+  apt: update_cache=yes
+  become: yes
+
+- name: Install packages
+  apt: pkg={{item}} state=installed
+  become: yes
+  with_items:
+  - matchbox
+  - x11-xserver-utils
+  - ttf-mscorefonts-installer
+  - sqlite3
+  - libnss3
+  - screen
+  - unclutter
+  - chromium-browser
+  notify:
+  - Restart
+  - Wait for restart to finish
+
+- name: Update rc.local
+  template: src=rc.local dest=/etc/rc.local owner=root group=root mode="u=rwx,g=rx,o=rx"
+  become: yes
+  notify:
+  - Restart
+  - Wait for restart to finish
+
+- name: Update xinitrc
+  template: src=xinitrc.j2 dest=/boot/xinitrc owner=root group=root mode="u=rwx,g=rx,o=rx"
+  become: yes
+  notify:
+  - Restart
+  - Wait for restart to finish
+
+- name: Update Xwrapper.config
+  template: src=Xwrapper.config dest=/etc/X11/Xwrapper.config owner=root group=root mode="u=rw,g=r,o=r"
+  become: yes
+  notify:
+  - Restart
+  - Wait for restart to finish

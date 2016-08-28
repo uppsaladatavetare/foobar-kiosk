@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  author: Charles Korn
+  description: An Ansible role for configuring a Raspberry Pi as an information radiator.
+  license: MIT
+  min_ansible_version: 1.2
+  categories:
+  - system
+  - web
+dependencies: []

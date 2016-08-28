@@ -1,0 +1,76 @@
+- hosts: all
+  roles:
+    - raspi-expanded-rootfs
+    - { role: raspi-information-radiator, boot_to_url: "http://localhost:8000/" }
+
+  handlers:
+    - name: Reload supervisor
+      service: name=supervisor state=restarted sleep=5
+      become: yes
+
+    - name: Restart chrome
+      command: killall chromium-browser
+      ignore_errors: yes
+
+  tasks:
+    - name: Setup the WiFi network
+      template: src=templates/wpa_supplicant.conf dest=/etc/wpa_supplicant/wpa_supplicant.conf owner=root group=root mode="u=r,g=r,o=r"
+      become: yes
+
+    - name: Remove the preinstalled python-pip
+      apt: name=python3-pip state=absent
+      become: yes
+
+    - name: Install extra dependencies
+      apt: pkg={{item}} state=installed
+      with_items:
+      - python3-dev
+      - redis-server
+      - supervisor
+      become: yes
+
+    - name: Install latest pip
+      easy_install: name=pip state=present executable=easy_install3
+      become: yes
+
+    - name: Configure the Raspberry Pi
+      template: src=templates/config.txt dest=/boot/config.txt owner=root group=root mode="u=rwx,g=rx,o=rx"
+      become: yes
+      notify:
+        - Restart
+        - Wait for restart to finish
+
+    - name: Setup app directory
+      file: path=/usr/app state=directory mode=0755 owner=pi group=pi
+      become: yes
+
+    - name: Fetch the source code
+      git: repo=https://github.com/uppsaladatavetare/foobar-kiosk.git version={{ deploy_branch }} dest=/usr/app update=yes
+      tags:
+        - deploy
+
+    - name: Install Python requirements
+      pip: requirements=/usr/app/drivers/requirements.pip executable=pip3
+      become: yes
+      tags:
+        - deploy
+
+    - name: Configure supervisor
+      template: src=templates/supervisor/foobar.conf dest=/etc/supervisor/conf.d/foobar.conf owner=root group=root mode="u=r,g=r,o=r"
+      become: yes
+      notify:
+        - Reload supervisor
+
+    - name: Build the application
+      local_action: shell npm run build
+      tags:
+        - deploy
+
+    - name: Upload the built project
+      synchronize: src=../build/ dest=/usr/app/web/
+      tags:
+        - deploy
+      notify:
+        - Reload supervisor
+        - Restart chrome
+
