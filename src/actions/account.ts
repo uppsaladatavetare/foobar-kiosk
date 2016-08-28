@@ -23,7 +23,7 @@ export function receiveAccount(data: IAccount = undefined) {
 
 export function login(cardId: string = undefined) {
     return (dispatch: Function, getState: any) => {
-        const { account, purchase } = getState();
+        const { account } = getState();
 
         if (!account.length) {
             dispatch(requestAccount(cardId));

@@ -7,6 +7,7 @@
     height: 420px;
     padding: 4px;
     z-index: 0;
+    transition: transform .3s ease;
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: flex-start;
