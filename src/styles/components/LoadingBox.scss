@@ -34,3 +34,11 @@
         }
     }
 }
+
+@keyframes loading-stretch {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+  }
+}

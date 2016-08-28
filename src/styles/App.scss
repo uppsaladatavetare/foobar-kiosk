@@ -49,14 +49,6 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    .timer {
-        background: #db1a1a !important;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
 }
 .overlay {
     position: absolute;
@@ -66,21 +58,4 @@ body {
     left: 0;
     right: 0;
     z-index: 10;
-}
-.product-enter {
-    opacity:  0.01;
-}
-
-.product-enter.product-enter-active {
-    opacity:  1;
-    transition:  opacity 500ms ease-in;
-}
-
-.product-leave {
-    opacity:  1;
-}
-
-.product-leave.product-leave-active {
-    opacity:  0.01;
-    transition:  opacity 300ms ease-in;
 }

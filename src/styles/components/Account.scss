@@ -1,11 +1,13 @@
+@import "styles/globals";
+
 .account {
-    color: #ffffff;
+    color: $white;
     display: block;
     font-size: 22px;
     text-align: left;
     height: 60px;
     transition: bottom .3s ease;
-    background: #1e1e1e;
+    background: $black;
     z-index: 9;
     &.active {
         opacity: 1;

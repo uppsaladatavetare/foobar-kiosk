@@ -7,13 +7,8 @@
     position: relative;
     background: $white;
     cursor: pointer;
-    transition: left .3s ease, top .3s ease;
-    animation: add .3s ease forwards;
     overflow: hidden;
     margin: 4px;
-    &.remove {
-        animation: remove .3s ease forwards;
-    }
     &.failed {
         font-size: 24px;
     }

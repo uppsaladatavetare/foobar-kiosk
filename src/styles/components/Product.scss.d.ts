@@ -1,6 +1,4 @@
 export const product: string;
-export const add: string;
-export const remove: string;
 export const failed: string;
 export const loading: string;
 export const overlay: string;

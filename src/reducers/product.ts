@@ -43,9 +43,7 @@ function _products(state: IState, action: IAction) {
 
             return state;
         case ADD_PRODUCT:
-            console.log(state.products);
             let product: IProduct = state.products.filter((product: IProduct) => {
-                console.log(product.code, action.product.code);
                 return product.code === action.product.code;
             })[0];
 

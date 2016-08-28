@@ -1,3 +1,5 @@
+@import "styles/globals";
+
 .start {
     font-size: 28px;
 }
@@ -5,4 +7,24 @@
     height: 420px;
     padding: 4px;
     z-index: 0;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+}
+
+:global .product-enter {
+    transform: scale(0);
+    &.product-enter-active {
+        transform: scale(1);
+        transition: transform .3s ease;
+    }
+}
+
+:global .product-leave {
+    transform: scale(1);
+    &.product-leave-active {
+        transform: scale(0);
+        transition: transform .3s ease;
+    }
 }

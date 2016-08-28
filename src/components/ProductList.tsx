@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import { IProductState, IProduct } from "types";
 
 import { Box, Flex } from "reflexbox";
@@ -19,15 +20,15 @@ export default class ProductList extends React.Component<IProductListProps, {}> 
             });
 
             return (
-                <Flex
-                    auto
-                    wrap
-                    align="flex-start"
-                    justify="flex-start"
+                <ReactCSSTransitionGroup
+                    component={Flex}
+                    style={{ transform: "translate(0, " + this.props.products.page * -206 + "px)" }}
                     className={style.grid}
-                    style={{ transform: "translate(0, " + this.props.products.page * -206 + "px)" }}>
+                    transitionName="product"
+                    transitionEnterTimeout={300}
+                    transitionLeaveTimeout={300}>
                     {content}
-                </Flex>
+                </ReactCSSTransitionGroup>
             );
         } else {
             return (
