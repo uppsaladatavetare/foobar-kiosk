@@ -30,3 +30,24 @@ Deployments can be done using a subset of the tasks in the playbook:
 ```bash
 ansible-playbook playbook.yml -l live --tags deployment
 ```
+
+## Frontend
+
+The frontend is build with [React](https://facebook.github.io/react/), [Redux](http://redux.js.org/) and [Typescript](https://webpack.github.io/). We use [Webpack](https://webpack.github.io/) to bundle the the modules to a single `bundle.js`.
+
+API host and key to the [foobar-api](https://github.com/uppsaladatavetare/foobar-api) has to be set in a file called `config.js`, or by specifying a path to the file in an enviroment variable named `SETTINGS`. Example config can be seen in `config.example.js`.
+
+Installs the frontend dependencies:
+```bash
+npm install
+```
+
+Builds the project in development mode and host it on a local dev-server. Webpack will listen file changes and rebuild necessary parts:
+```bash
+npm start
+```
+
+Builds the project in production mode. Will output `build/build.js`:
+```bash
+npm run build
+```
