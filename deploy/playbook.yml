@@ -17,6 +17,14 @@
       template: src=templates/wpa_supplicant.conf dest=/etc/wpa_supplicant/wpa_supplicant.conf owner=root group=root mode="u=r,g=r,o=r"
       become: yes
 
+    - name: Upload the WiFi lifeguard script
+      template: src=templates/keep_wlan_alive.sh dest=/root/keep_wlan_alive.sh owner=root group=root mode="u=rx"
+      become: yes
+
+    - name: Schedule the WiFi lifeguard script
+      cron: name="wifi guard" minute="*" job="sh /root/keep_wlan_alive.sh"
+      become: yes
+
     - name: Remove the preinstalled python-pip
       apt: name=python3-pip state=absent
       become: yes
