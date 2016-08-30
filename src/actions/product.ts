@@ -118,8 +118,9 @@ export function addProduct(code: string) {
         const { purchase } = getState();
 
         if (purchase.state === "WAITING" || purchase.state === "ONGOING") {
-		    if (purchase.state === "WAITING")
+            if (purchase.state === "WAITING") {
                 dispatch(login());
+            }
             return fetcher.productWithCode(dispatch, code);
         }
     };

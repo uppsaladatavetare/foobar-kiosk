@@ -1,22 +1,21 @@
 import * as React from "react";
+import { IAccount } from "types";
 
 import { Box, Flex } from "reflexbox";
 
 import * as style from "styles/components/Account.scss";
 
 interface IAccountProps {
-    id: number;
-    name: string;
-    balance: number;
+    account: IAccount;
 }
 
 export default class Account extends React.Component<IAccountProps, {}> {
     render() {
-        if (this.props.id) {
+        if (this.props.account.id) {
             return (
                 <Flex className={style.account} px={2} align="center" auto>
-                    <Box auto>{this.props.name}</Box>
-                    <Box>Balance: {this.props.balance} kr</Box>
+                    <Box auto>{this.props.account.name}</Box>
+                    <Box>Balance: {this.props.account.balance} kr</Box>
                 </Flex>
             );
         } else {

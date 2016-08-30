@@ -3,4 +3,6 @@ export interface IAccount {
     user_id: string;
     name: string;
     balance: number;
+    request?: boolean;
+    failed?: boolean;
 }

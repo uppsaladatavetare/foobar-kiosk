@@ -4,6 +4,7 @@ import { IAccount } from "types";
 import { newPurchase } from "actions/purchase";
 
 export const REQUEST_ACCOUNT = "REQUEST_ACCOUNT";
+export const FAILED_ACCOUNT = "FAILED_ACCOUNT";
 export const LOGIN_ACCOUNT = "LOGIN_ACCOUNT";
 export const CLEAR_ACCOUNT = "CLEAR_ACCOUNT";
 
@@ -21,6 +22,12 @@ export function receiveAccount(data: IAccount = undefined) {
     };
 };
 
+export function failedRequestAccount() {
+    return {
+        type: FAILED_ACCOUNT
+    };
+};
+
 export function login(cardId: string = undefined) {
     return (dispatch: Function, getState: any) => {
         const { account } = getState();
@@ -35,6 +42,14 @@ export function login(cardId: string = undefined) {
                     .then((data: IAccount) => {
                         dispatch(newPurchase());
                         dispatch(receiveAccount(data));
+                    })
+                    .catch((data: any) => {
+                        dispatch(failedRequestAccount());
+                        setTimeout(() => {
+                            if (getState().account.failed) {
+                                dispatch(clearAccount());
+                            }
+                        }, 8000);
                     });
             } else {
                 dispatch(newPurchase());

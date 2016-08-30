@@ -1,6 +1,6 @@
 import * as Redux from "redux";
 
-import { REQUEST_ACCOUNT, LOGIN_ACCOUNT, CLEAR_ACCOUNT } from "actions/account";
+import { REQUEST_ACCOUNT, LOGIN_ACCOUNT, CLEAR_ACCOUNT, FAILED_ACCOUNT } from "actions/account";
 
 const objectAssign = require("object-assign");
 
@@ -20,6 +20,10 @@ export function account(state: IState = {}, action: IAction) {
             return action.data ? action.data : {};
         case CLEAR_ACCOUNT:
             return {};
+        case FAILED_ACCOUNT:
+            return objectAssign({}, state, {
+                failed: true
+            });
         default:
             return state;
     }

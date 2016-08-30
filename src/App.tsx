@@ -4,10 +4,10 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as classNames from "classnames";
 import { Provider, connect } from "react-redux";
-import { IProduct } from "types";
+import { IProduct, IAccount } from "types";
 
 import configureStore from "store/configureStore";
-import { login } from "actions/account";
+import { login, clearAccount } from "actions/account";
 import { requestPurchase, clearPurchase, endPurchase } from "actions/purchase";
 import { addProduct, removeProduct, selectProduct, increaseProductQty, changePage } from "actions/product";
 
@@ -24,7 +24,7 @@ interface IAppProps {
         products: IProduct[];
         maxPage?: number;
     };
-    account: any;
+    account: IAccount;
     purchase: any;
 }
 
@@ -88,7 +88,7 @@ class App extends React.Component<IAppProps, {}> {
                             products={products}
                             onSelect={(code: string) => dispatch(selectProduct(code))}/>
                         <Flex>
-                            <Account {...account} />
+                            <Account account={account}/>
                             <PurchaseButton
                                 products={products}
                                 purchaseState={purchase.state}
@@ -118,7 +118,19 @@ class App extends React.Component<IAppProps, {}> {
                     <Box py={1}><Button label="Okay" onClick={() => dispatch(endPurchase())}/></Box>
                 </Flex>
             );
-        } else /* if(purchase.state === "WAITING") */ {
+        } else if (account.failed) {
+            return (
+                <Flex
+                    column
+                    align="center"
+                    justify="center"
+                    className={classNames(style.container, style.start)}>
+                    <Box py={1}>Failed to request account info</Box>
+                    <Box py={1}>The card may not exist in the system</Box>
+                    <Box py={1}><Button label="Okay" onClick={() => dispatch(clearAccount())}/></Box>
+                </Flex>
+            );
+        } else {
             return (
                 <Flex
                     column
