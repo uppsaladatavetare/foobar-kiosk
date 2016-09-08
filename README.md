@@ -2,6 +2,10 @@
 
 This repository contains the frontend for the FooBar kiosk and inventory system.
 
+[![The kiosk in action](https://files.kjagiello.com/ef38b9a3_kiosk.gif)](https://files.kjagiello.com/f2131ec3_kiosk.mp4)
+
+*(click on the image for a high quality video)*
+
 ## Our setup
 
 - Raspberry Pi 3 Model B (with Raspian Jessie on it)
