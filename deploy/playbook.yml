@@ -12,7 +12,46 @@
       command: killall chromium-browser
       ignore_errors: yes
 
+    - name: Restart ssh
+      service: name=ssh state=reloaded
+      become: yes
+
   tasks:
+    - name: Remove the preinstalled python-pip
+      apt: name=python3-pip state=absent
+      become: yes
+
+    - name: Install the required packages
+      apt: pkg={{item}} state=installed
+      with_items:
+      - python3-dev
+      - redis-server
+      - supervisor
+      - ufw
+      become: yes
+
+    - name: Allow SSH in UFW
+      ufw: rule=allow port=22 proto=tcp
+      become: yes
+      tags:
+        - security
+
+    - name: Set firewall default policy
+      ufw: state=enabled policy=reject
+      become: yes
+      tags:
+        - security
+
+    - name: Disallow password authentication
+      lineinfile: dest=/etc/ssh/sshd_config
+                  regexp="^PasswordAuthentication"
+                  line="PasswordAuthentication no"
+                  state=present
+      notify: Restart ssh
+      become: yes
+      tags:
+        - security
+
     - name: Setup the WiFi network
       template: src=templates/wpa_supplicant.conf dest=/etc/wpa_supplicant/wpa_supplicant.conf owner=root group=root mode="u=r,g=r,o=r"
       become: yes
@@ -23,18 +62,6 @@
 
     - name: Schedule the WiFi lifeguard script
       cron: name="wifi guard" minute="*" job="sh /root/keep_wlan_alive.sh"
-      become: yes
-
-    - name: Remove the preinstalled python-pip
-      apt: name=python3-pip state=absent
-      become: yes
-
-    - name: Install extra dependencies
-      apt: pkg={{item}} state=installed
-      with_items:
-      - python3-dev
-      - redis-server
-      - supervisor
       become: yes
 
     - name: Install latest pip
