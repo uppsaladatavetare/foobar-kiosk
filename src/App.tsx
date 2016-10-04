@@ -125,8 +125,8 @@ class App extends React.Component<IAppProps, {}> {
                     align="center"
                     justify="center"
                     className={classNames(style.container, style.start)}>
-                    <Box py={1}>Failed to request account info</Box>
-                    <Box py={1}>The card may not exist in the system</Box>
+                    <Box py={1}>This card is not registered</Box>
+                    <Box py={1}>Ask someone to create register it for you!</Box>
                     <Box py={1}><Button label="Okay" onClick={() => dispatch(clearAccount())}/></Box>
                 </Flex>
             );
