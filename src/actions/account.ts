@@ -49,7 +49,7 @@ export function login(cardId: string = undefined) {
                             if (getState().account.failed) {
                                 dispatch(clearAccount());
                             }
-                        }, 8000);
+                        }, 5000);
                     });
             } else {
                 dispatch(newPurchase());
