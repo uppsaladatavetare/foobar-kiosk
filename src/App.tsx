@@ -53,7 +53,7 @@ class App extends React.Component<IAppProps, {}> {
         const { dispatch } = this.props;
 
         // dispatch(login("154464990"));
-        Thunder.connect("localhost:8080", "foobar", ["products", "cards"]);
+        Thunder.connect(process.env.THUNDER.host, process.env.THUNDER.key, ["products", "cards"]);
         Thunder.listen((data: IThunder) => {
             if (data.channel === "products") {
                 dispatch(addProduct(JSON.parse(data.payload)));

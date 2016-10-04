@@ -58,7 +58,7 @@ function _products(state: IState, action: IAction) {
                                 loading: false,
                                 qty: 1,
                                 price: action.product.price,
-                                image: "http://dev.foocash.me" + action.product.image
+                                image: process.env.API.host + action.product.image
                             });
                         } else {
                             return product;

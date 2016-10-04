@@ -61,7 +61,8 @@ module.exports = {
         new webpack.DefinePlugin({
             "process.env": {
                 NODE_ENV: JSON.stringify("development"),
-                API: JSON.stringify(config.api)
+                API: JSON.stringify(config.api),
+                THUNDER: JSON.stringify(config.thunder)
             }
         })
     ],
