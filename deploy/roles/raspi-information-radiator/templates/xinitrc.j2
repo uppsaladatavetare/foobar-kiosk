@@ -26,7 +26,7 @@ while true; do
 	fbset -depth $( cat /sys/module/*fb*/parameters/fbdepth );
 
 	# Calibrate the touch screen
-    xinput set-prop --type=int --format=32 "eGalax Inc. USB  TouchController" "Evdev Axis Calibration" 57 1938 162 1979
+    xinput set-prop --type=int --format=32 "eGalax Inc. USB TouchController" "Evdev Axis Calibration" 57 1938 162 1979
 
 	# Start the window manager (remove "-use_cursor no" if you actually want mouse interaction)
     matchbox-window-manager -use_titlebar no {% if hide_mouse_cursor %} -use_cursor no {% endif %} &
