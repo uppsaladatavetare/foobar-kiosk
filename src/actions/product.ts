@@ -59,7 +59,7 @@ class ProductFetcher {
     promises = {};
 
     productWithCode(dispatch: Function, code: string) {
-        if (this.cache.hasKey(code)) {
+        /*if (this.cache.hasKey(code)) {
             let product = this.cache.get(code);
             dispatch(requestProduct(code));
             dispatch(receiveProduct(product));
@@ -87,7 +87,7 @@ class ProductFetcher {
                 });
 
             return this.promises[code];
-        }
+        }*/
 
         // product record not found in the cache, fetch it and dispatch
         // appropriate actions
