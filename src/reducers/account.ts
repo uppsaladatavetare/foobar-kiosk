@@ -4,7 +4,13 @@ import { REQUEST_ACCOUNT, LOGIN_ACCOUNT, CLEAR_ACCOUNT, FAILED_ACCOUNT } from "a
 
 const objectAssign = require("object-assign");
 
-interface IState { }
+export interface IState {
+    id?: string;
+    name?: string;
+    balance?: number;
+    request?: any;
+    failed?: boolean;
+}
 
 interface IAction extends Redux.Action {
     data: any;

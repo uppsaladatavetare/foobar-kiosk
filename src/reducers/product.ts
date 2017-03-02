@@ -14,7 +14,7 @@ import {
 
 const objectAssign = require("object-assign");
 
-interface IState {
+export interface IState {
     products: IProduct[];
     page: number;
 }

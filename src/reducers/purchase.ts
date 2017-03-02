@@ -2,7 +2,7 @@ import * as Redux from "redux";
 
 import { NEW_PURCHASE, PENDING_PURCHASE, FINALIZE_PURCHASE, END_PURCHASE } from "actions/purchase";
 
-interface IState {
+export interface IState {
     state: string;
     cost?: number;
 }
