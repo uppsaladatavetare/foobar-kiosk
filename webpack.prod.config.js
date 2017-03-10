@@ -64,7 +64,8 @@ module.exports = {
             "process.env": {
                 NODE_ENV: JSON.stringify("production"),
                 API: JSON.stringify(config.api),
-                THUNDER: JSON.stringify(config.thunder)
+                THUNDER: JSON.stringify(config.thunder),
+                SENTRY: JSON.stringify(config.sentry)
             }
         })
     ]

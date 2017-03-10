@@ -4,4 +4,9 @@ module.exports = {
         host: "",
         key: ""
     }
+    thunder: {
+        host: "",
+        key: ""
+    },
+    sentry: ""
 };
