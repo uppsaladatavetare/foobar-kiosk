@@ -3,6 +3,9 @@ export interface IAccount {
     user_id: string;
     name: string;
     balance: number;
+    token:string;
     request?: boolean;
     failed?: boolean;
+    isComplete?:boolean;
+    dispatch: Function;
 }
