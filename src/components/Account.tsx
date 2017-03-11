@@ -5,7 +5,6 @@ import { Box, Flex } from "reflexbox";
 import { Button } from "components";
 import * as style from "styles/components/Account.scss";
 
-
 interface IAccountProps {
     account: IAccount;
     viewProfileQR: Function;

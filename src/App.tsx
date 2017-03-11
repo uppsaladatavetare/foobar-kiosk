@@ -15,7 +15,7 @@ import { Flex, Box } from "reflexbox";
 import { ProductList, PurchaseButton, Account, Sidebar, LoadingBox, Button } from "components";
 import * as style from "styles/App.scss";
 
-//Have to use require since qrcode.react does not have support for new javascript and import module
+//Require since qrcode.react does not have support for new javascript "import"
 var QRCode = require('qrcode.react');
 
 interface IAppProps {
@@ -133,8 +133,7 @@ class App extends React.Component<IAppProps, {}> {
                 </Flex>
             );
         } else if (purchase.state === "PROFILE") {
-            var url = "http://localhost:8000/profile/" + account.token
-            console.log(account.token);
+            var url = process.env.API.host + "profile/" + account.token;
             return (
                 <Flex 
                     column
