@@ -133,13 +133,13 @@ class App extends React.Component<IAppProps, {}> {
                 </Flex>
             );
         } else if (purchase.state === "PROFILE") {
-            var url = process.env.API.host + "profile/" + account.token;
+            var url = process.env.API.host + "/profile/" + account.token;
             return (
                 <Flex 
                     column
                     align="center"
                     justify="center"
-                    className={classNames(style.container, style.start)}> 
+                    className={classNames(style.container, style.start)}>
                     <Button icon="times" alert className={style.quit} onClick={() => dispatch(login("154464990"))}/>
                     <Box ><QRCode value={url} /></Box>
                     <Box>Scan the QRcode to view and edit your profile </Box>
