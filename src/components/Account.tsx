@@ -14,9 +14,8 @@ export default class Account extends React.Component<IAccountProps, {}> {
     
     render() {
         var classList = classNames({
-
             [style.account]: true, 
-            [style.notCompleted]: !this.props.account.isComplete        
+            [style.notCompleted]: !this.props.account.is_complete        
         });
         if (this.props.account.id) {
             return (

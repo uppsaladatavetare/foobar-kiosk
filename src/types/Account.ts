@@ -6,6 +6,7 @@ export interface IAccount {
     token:string;
     request?: boolean;
     failed?: boolean;
-    isComplete?:boolean;
+    is_complete?:boolean;
     dispatch: Function;
+    card_id:string;
 }
