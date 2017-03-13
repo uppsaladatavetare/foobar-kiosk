@@ -1,6 +1,6 @@
 import * as Redux from "redux";
 
-import { NEW_PURCHASE, PENDING_PURCHASE, FINALIZE_PURCHASE, END_PURCHASE } from "actions/purchase";
+import { NEW_PURCHASE, PENDING_PURCHASE, FINALIZE_PURCHASE, END_PURCHASE, PROFILE } from "actions/purchase";
 
 export interface IState {
     state: string;
@@ -31,6 +31,10 @@ export function purchase(state: IState = { state: "WAITING" }, action: IAction) 
         case END_PURCHASE:
             return {
                 state: "WAITING"
+            };
+        case PROFILE:
+            return {
+                state: "PROFILE"
             };
         default:
             return state;

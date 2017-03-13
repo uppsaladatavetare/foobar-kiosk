@@ -12,4 +12,29 @@
     &.active {
         opacity: 1;
     }
+    .balance{
+        border-right: 2px solid $grey-dark;
+        margin-right: 16px;
+    }
+    &.notCompleted i{
+        animation: rotating 2s linear infinite;
+    }
+}
+ 
+@keyframes rotating {
+  10%, 90% {
+    transform: rotate(-10deg);
+  }
+  
+  20%, 80% {
+    transform: rotate(10deg);
+  }
+
+  30%, 50%, 70% {
+    transform: rotate(-30deg);
+  }
+
+  40%, 60% {
+    transform: rotate(30deg);
+  }
 }

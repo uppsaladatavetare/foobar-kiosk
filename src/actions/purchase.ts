@@ -8,6 +8,7 @@ export const NEW_PURCHASE = "NEW_PURCHASE";
 export const PENDING_PURCHASE = "PENDING_PURCHASE";
 export const FINALIZE_PURCHASE = "FINALIZE_PURCHASE";
 export const END_PURCHASE = "END_PURCHASE";
+export const PROFILE = "PROFILE";
 
 export function newPurchase() {
     return {
@@ -25,6 +26,12 @@ export function finalizePurchase(data: any) {
     return {
         type: FINALIZE_PURCHASE,
         data
+    };
+};
+
+export function viewProfileQR() {
+    return {
+        type: PROFILE
     };
 };
 

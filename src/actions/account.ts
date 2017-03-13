@@ -41,6 +41,7 @@ export function login(cardId: string = undefined) {
                     })
                     .then((data: IAccount) => {
                         dispatch(newPurchase());
+                        data.card_id = cardId;
                         dispatch(receiveAccount(data));
                     })
                     .catch((data: any) => {

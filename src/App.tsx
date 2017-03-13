@@ -8,13 +8,15 @@ import { IProduct, IAccount } from "types";
 
 import configureStore from "store/configureStore";
 import { login, clearAccount } from "actions/account";
-import { requestPurchase, clearPurchase, endPurchase } from "actions/purchase";
+import { requestPurchase, clearPurchase, endPurchase, viewProfileQR } from "actions/purchase";
 import { addProduct, removeProduct, selectProduct, increaseProductQty, changePage } from "actions/product";
 
 import { Flex, Box } from "reflexbox";
 import { ProductList, PurchaseButton, Account, Sidebar, LoadingBox, Button } from "components";
-
 import * as style from "styles/App.scss";
+
+//Require since qrcode.react does not have support for new javascript "import"
+var QRCode = require('qrcode.react');
 
 interface IAppProps {
     dispatch: Function;
@@ -88,7 +90,7 @@ class App extends React.Component<IAppProps, {}> {
                             products={products}
                             onSelect={(code: string) => dispatch(selectProduct(code))}/>
                         <Flex>
-                            <Account account={account}/>
+                            <Account account={account} viewProfileQR={() => dispatch(viewProfileQR())}/>
                             <PurchaseButton
                                 products={products}
                                 purchaseState={purchase.state}
@@ -130,7 +132,19 @@ class App extends React.Component<IAppProps, {}> {
                     <Box py={1}><Button label="Okay" onClick={() => dispatch(clearAccount())}/></Box>
                 </Flex>
             );
-        } else {
+        } else if (purchase.state === "PROFILE") {
+            var url = process.env.API.host + "/profile/" + account.token;
+            return (
+                <Flex 
+                    column
+                    align="center"
+                    justify="center"
+                    className={classNames(style.container, style.start)}>
+                    <Button icon="times" alert className={style.quit} onClick={() => dispatch(login(account.card_id))}/>
+                    <Box ><QRCode size="200"  value={url} /></Box>
+                    <Box >Scan the QRcode to view and edit your profile </Box>
+                </Flex>);
+        }else {
             return (
                 <Flex
                     column
