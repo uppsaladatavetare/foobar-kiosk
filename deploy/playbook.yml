@@ -30,8 +30,11 @@
       - ufw
       become: yes
 
-    - name: Allow SSH in UFW
-      ufw: rule=allow port=22 proto=tcp
+    - name: Configure UFW
+      ufw: rule=allow port={{port}} proto=tcp
+      with_items:
+        - 22
+        - 161
       become: yes
       tags:
         - security
