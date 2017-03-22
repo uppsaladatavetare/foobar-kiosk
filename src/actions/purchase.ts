@@ -10,6 +10,8 @@ export const FINALIZE_PURCHASE = "FINALIZE_PURCHASE";
 export const END_PURCHASE = "END_PURCHASE";
 export const PROFILE = "PROFILE";
 
+var cashSound = new Audio(require('../../static/cash.wav'));
+
 export function newPurchase() {
     return {
         type: NEW_PURCHASE
@@ -23,6 +25,7 @@ export function pendingPurchase() {
 };
 
 export function finalizePurchase(data: any) {
+    cashSound.play();
     return {
         type: FINALIZE_PURCHASE,
         data
