@@ -55,7 +55,7 @@ export function endPurchase() {
 
 export function cancelPurchase() {
     doorSound.play();
-    return endPurchase();
+    return clearPurchase();
 }
 
 export function requestPurchase() {
