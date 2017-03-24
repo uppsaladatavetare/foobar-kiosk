@@ -11,6 +11,7 @@ export const END_PURCHASE = "END_PURCHASE";
 export const PROFILE = "PROFILE";
 
 var cashSound = new Audio(require('../../static/cash.wav'));
+var doorSound = new Audio(require('../../static/door.wav'));
 
 export function newPurchase() {
     return {
@@ -51,6 +52,11 @@ export function endPurchase() {
         type: END_PURCHASE
     };
 };
+
+export function cancelPurchase() {
+    doorSound.play();
+    return endPurchase();
+}
 
 export function requestPurchase() {
     return (dispatch: Function, getState: Function) => {

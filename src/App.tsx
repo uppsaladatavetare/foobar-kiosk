@@ -8,7 +8,7 @@ import { IProduct, IAccount } from "types";
 
 import configureStore from "store/configureStore";
 import { login, clearAccount } from "actions/account";
-import { requestPurchase, clearPurchase, endPurchase, viewProfileQR } from "actions/purchase";
+import { requestPurchase, endPurchase, viewProfileQR, cancelPurchase } from "actions/purchase";
 import { addProduct, removeProduct, selectProduct, increaseProductQty, changePage } from "actions/product";
 
 import { Flex, Box } from "reflexbox";
@@ -98,7 +98,7 @@ class App extends React.Component<IAppProps, {}> {
                                 onPurchase={() => dispatch(requestPurchase())}/>
                         </Flex>
                     </Flex>
-                    <Button icon="times" alert className={style.quit} onClick={() => dispatch(clearPurchase())}/>
+                    <Button icon="times" alert className={style.quit} onClick={() => dispatch(cancelPurchase())}/>
                     {(purchase.state === "PENDING" ? <LoadingBox/> : undefined)}
                 </Flex>
             );
@@ -135,7 +135,7 @@ class App extends React.Component<IAppProps, {}> {
         } else if (purchase.state === "PROFILE") {
             var url = process.env.API.host + "/profile/" + account.token;
             return (
-                <Flex 
+                <Flex
                     column
                     align="center"
                     justify="center"
