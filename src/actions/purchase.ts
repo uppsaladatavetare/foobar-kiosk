@@ -10,9 +10,6 @@ export const FINALIZE_PURCHASE = "FINALIZE_PURCHASE";
 export const END_PURCHASE = "END_PURCHASE";
 export const PROFILE = "PROFILE";
 
-var cashSound = new Audio(require('../../static/cash.wav'));
-var doorSound = new Audio(require('../../static/door.wav'));
-
 export function newPurchase() {
     return {
         type: NEW_PURCHASE
@@ -26,6 +23,7 @@ export function pendingPurchase() {
 };
 
 export function finalizePurchase(data: any) {
+    var cashSound = new Audio(require('../../static/cash.wav'));
     cashSound.play();
     return {
         type: FINALIZE_PURCHASE,
@@ -54,6 +52,7 @@ export function endPurchase() {
 };
 
 export function cancelPurchase() {
+    var doorSound = new Audio(require('../../static/door.wav'));
     doorSound.play();
     return clearPurchase();
 }
