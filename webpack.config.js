@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const autoprefixer = require("autoprefixer");
 const ForkCheckerPlugin = require("awesome-typescript-loader").ForkCheckerPlugin;
 
-const config = require(process.env.SETTINGS || "./config");
+const config = require(process.env.SETTINGS || "./configs/live.js");
 
 module.exports = {
     entry: [
