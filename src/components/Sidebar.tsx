@@ -28,9 +28,6 @@ export default class Sidebar extends React.Component<ISidebarProps, {}> {
                     <Button icon="trash" disabled={!this.props.active} onClick={this.props.onRemove}/>
                 </Flex>
                 <Button icon="chevron-down" onClick={this.props.onScrollDown} disabled={!this.props.scrollDownActive}/>
-                {(process.env.NODE_ENV === "development" ? (
-                    <Button icon="plus" onClick={this.props.addRandomProduct}/>
-                ) : undefined)}
             </Flex>
         );
     }

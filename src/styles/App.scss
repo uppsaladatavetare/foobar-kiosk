@@ -34,7 +34,7 @@ body {
 .container {
     background: #88a0a8;
     height: 480px;
-    width: 800px;
+    width: $app-width;
     overflow: hidden;
     display: block;
     position: absolute;

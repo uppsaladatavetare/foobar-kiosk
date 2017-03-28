@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const autoprefixer = require("autoprefixer");
 
-const config = require(process.env.SETTINGS || "./config");
+const config = require(process.env.SETTINGS || "./configs/live.js");
 
 module.exports = {
     entry: [

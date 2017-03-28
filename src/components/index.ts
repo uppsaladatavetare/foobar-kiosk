@@ -6,6 +6,7 @@ import ProductList from "components/ProductList";
 import PurchaseButton from "components/PurchaseButton";
 import Icon from "components/Icon";
 import Button from "components/Button";
+import DevToolbar from "components/DevToolbar";
 
 export {
     Account,
@@ -15,5 +16,6 @@ export {
     ProductList,
     PurchaseButton,
     Icon,
-    Button
+    Button,
+    DevToolbar
 }

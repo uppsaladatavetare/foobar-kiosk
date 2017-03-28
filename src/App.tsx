@@ -12,7 +12,7 @@ import { requestPurchase, endPurchase, viewProfileQR, cancelPurchase } from "act
 import { addProduct, removeProduct, selectProduct, increaseProductQty, changePage } from "actions/product";
 
 import { Flex, Box } from "reflexbox";
-import { ProductList, PurchaseButton, Account, Sidebar, LoadingBox, Button } from "components";
+import { ProductList, PurchaseButton, Account, Sidebar, LoadingBox, Button, DevToolbar } from "components";
 import * as style from "styles/App.scss";
 
 //Require since qrcode.react does not have support for new javascript "import"
@@ -36,25 +36,9 @@ interface IThunder {
 }
 
 class App extends React.Component<IAppProps, {}> {
-    addRandomProduct() {
-        let codes = [
-            "7310500088853",
-            "7340083438684",
-            "7611612221351",
-            "7310500114934",
-            "7310070765840",
-            "7315360010754",
-            "7622300342753"
-        ];
-
-        let randomIndex = Math.floor(Math.random() * codes.length);
-        this.props.dispatch(addProduct(codes[randomIndex]));
-    }
-
     componentDidMount() {
         const { dispatch } = this.props;
 
-        // dispatch(login("154464990"));
         Thunder.connect(process.env.THUNDER.host, process.env.THUNDER.key, ["products", "cards"]);
         Thunder.listen((data: IThunder) => {
             if (data.channel === "products") {
@@ -66,6 +50,20 @@ class App extends React.Component<IAppProps, {}> {
     }
 
     render() {
+        if (process.env.NODE_ENV == 'development') {
+            return (
+                <div>
+                    <DevToolbar
+                        dispatch={this.props.dispatch}
+                    />
+                    {this.renderApp()}
+                </div>
+            );
+        }
+        return this.renderApp();
+    }
+
+    renderApp() {
         const { dispatch, products, account, purchase } = this.props;
 
         let selected = products.products.filter((product: any) => {
@@ -81,7 +79,6 @@ class App extends React.Component<IAppProps, {}> {
                         onRemove={() => dispatch(removeProduct())}
                         onScrollUp={() => dispatch(changePage(-1))}
                         onScrollDown={() => dispatch(changePage(1))}
-                        addRandomProduct={() => this.addRandomProduct()}
                         active={selected > 0}
                         scrollUpActive={products.page > 0}
                         scrollDownActive={products.page < products.maxPage}/>
@@ -154,14 +151,6 @@ class App extends React.Component<IAppProps, {}> {
                     <Box py={1}>Blip a card linked with your account</Box>
                     <Box py={1}>or</Box>
                     <Box py={1}>Scan a product to start a cash payment</Box>
-                    {(process.env.NODE_ENV === "development" ? (
-                        <Box py={1}><Button label="dev cash buy" onClick={() => this.addRandomProduct()}/></Box>
-                    ) : undefined)}
-                    {(process.env.NODE_ENV === "development" ? (
-                        <Box py={1}>
-                            <Button label="dev account buy" onClick={() => dispatch(login("154464990"))}/>
-                        </Box>
-                    ) : undefined)}
                     {(account.request ? <LoadingBox/> : undefined)}
                     {(account.request ? <Box className={style.overlay}/> : undefined)}
                 </Flex>

@@ -20,12 +20,12 @@
         animation: rotating 2s linear infinite;
     }
 }
- 
+
 @keyframes rotating {
   10%, 90% {
     transform: rotate(-10deg);
   }
-  
+
   20%, 80% {
     transform: rotate(10deg);
   }
