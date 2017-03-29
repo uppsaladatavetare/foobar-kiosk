@@ -133,13 +133,16 @@ class App extends React.Component<IAppProps, {}> {
             var url = process.env.API.host + "/profile/" + account.token;
             return (
                 <Flex
-                    column
                     align="center"
                     justify="center"
                     className={classNames(style.container, style.start)}>
                     <Button icon="times" alert className={style.quit} onClick={() => dispatch(login(account.card_id))}/>
-                    <Box ><QRCode size="200"  value={url} /></Box>
-                    <Box >Scan the QRcode to view and edit your profile </Box>
+                    <Box>
+                        <div className={style.qrcode}>
+                            <QRCode size="200" value={url} className={style.qrcode} />
+                        </div>
+                    </Box>
+                    <Box p={3}><p>Scan the QRcode to<br />view and edit your profile.</p></Box>
                 </Flex>);
         }else {
             return (

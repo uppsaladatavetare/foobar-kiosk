@@ -59,3 +59,13 @@ body {
     right: 0;
     z-index: 10;
 }
+.qrcode {
+    width: 200px;
+    height: 200px;
+    border: solid 5px #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+    box-sizing: content-box;
+}
+p {
+    line-height: 36px;
+}
