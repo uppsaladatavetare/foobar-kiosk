@@ -140,7 +140,7 @@ class App extends React.Component<IAppProps, {}> {
                     <Button icon="times" alert className={style.quit} onClick={() => dispatch(login(account.card_id))}/>
                     <Box>
                         <div className={style.qrcode}>
-                            <QRCode size="200" value={url} className={style.qrcode} />
+                            <QRCode size={200} value={url} className={style.qrcode} />
                         </div>
                     </Box>
                     <Box p={3}><p>Scan the QRcode to<br />view and edit your profile.</p></Box>
