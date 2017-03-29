@@ -55,6 +55,7 @@ class App extends React.Component<IAppProps, {}> {
                 <div>
                     <DevToolbar
                         dispatch={this.props.dispatch}
+                        account={this.props.account}
                     />
                     {this.renderApp()}
                 </div>

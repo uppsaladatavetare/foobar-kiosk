@@ -9,6 +9,7 @@ import { login, clearAccount } from "actions/account";
 
 interface IDevToolbarProps {
     dispatch: Function
+    account: IAccount
 }
 
 export default class DevToolbar extends React.Component<IDevToolbarProps, {}> {
@@ -26,11 +27,21 @@ export default class DevToolbar extends React.Component<IDevToolbarProps, {}> {
         this.props.dispatch(addProduct(codes[randomIndex]));
     }
 
+    qrcode() {
+        if (this.props.account.token) {
+            var url = process.env.API.host + "/profile/" + this.props.account.token;
+            return (
+                <Button icon="qrcode" onClick={() => window.open(url)}/>
+            );
+        }
+    }
+
     render() {
         var dispatch = this.props.dispatch;
         return (
             <Flex pl={2} align="center" auto className={style.devbar}>
                 <Box auto>{process.env.API.host}</Box>
+                {this.qrcode()}
                 <Button icon="credit-card" onClick={() => dispatch(login('1337'))}/>
                 <Button icon="plus" onClick={() => this.addRandomProduct()}/>
             </Flex>
