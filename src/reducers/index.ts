@@ -16,4 +16,9 @@ const rootReducer = combineReducers({
     purchase
 });
 
-export default rootReducer;
+export default function(state: any = {}, action: any) {
+    if (action.type === '_LOAD_STATE') {
+        return action.data.state;
+    }
+    return rootReducer(state, action);
+}

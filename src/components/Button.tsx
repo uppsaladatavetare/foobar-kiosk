@@ -4,7 +4,7 @@ import * as classNames from "classnames";
 import Icon from "components/Icon";
 import { Box, Flex } from "reflexbox";
 
-import * as style from "styles/components/Button.scss";
+import * as style from "styles/primary/components/Button.scss";
 
 interface IButtonProps {
     onClick: Function;

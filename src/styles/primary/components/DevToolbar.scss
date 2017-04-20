@@ -1,7 +1,6 @@
-@import "styles/globals";
+@import "styles/common/globals";
 
 .devbar {
-    width: $app-width;
     color: $white;
     display: block;
     font-size: 22px;
@@ -10,4 +9,8 @@
     transition: bottom .3s ease;
     background: $black;
     z-index: 9;
+
+    &.fixedWidth {
+        width: $app-width;
+    }
 }

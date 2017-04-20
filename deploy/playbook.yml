@@ -9,7 +9,7 @@
       become: yes
 
     - name: Restart chrome
-      command: killall chromium-browser
+      command: killall -q chromium-browser
       ignore_errors: yes
 
     - name: Restart ssh
@@ -31,10 +31,11 @@
       become: yes
 
     - name: Configure UFW
-      ufw: rule=allow port={{port}} proto=tcp
+      ufw: rule=allow to_port={{item}} proto=tcp
       with_items:
         - 22
         - 161
+        - 8080
       become: yes
       tags:
         - security
@@ -98,9 +99,11 @@
       become: yes
       notify:
         - Reload supervisor
+      tags:
+        - supervisor
 
     - name: Build the application
-      local_action: shell npm run build
+      local_action: shell SCREEN={{screen}} npm run build
       tags:
         - deploy
 
@@ -109,6 +112,6 @@
       tags:
         - deploy
       notify:
-        - Reload supervisor
+        #        - Reload supervisor
         - Restart chrome
 

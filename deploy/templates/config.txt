@@ -31,11 +31,13 @@ disable_overscan=1
 config_hdmi_boost=4
 
 #set specific CVT mode
+{% if screen == 'primary' %}
 hdmi_cvt 800 480 60 6 0 0 0
 
 #set CVT as default
 hdmi_group=2
 hdmi_mode=87
+{% endif %}
 
 # uncomment to force a HDMI mode rather than DVI. This can make audio work in
 # DMT (computer monitor) modes

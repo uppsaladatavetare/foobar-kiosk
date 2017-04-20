@@ -37,4 +37,5 @@ while true; do
 
 	# Start the browser (See http://peter.sh/experiments/chromium-command-line-switches/)
 	chromium-browser --app={{ boot_to_url }} --kiosk {% if enable_remote_debugging %} --remote-debugging-port=9222 {% endif %}
+
 done;
