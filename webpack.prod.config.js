@@ -67,7 +67,8 @@ module.exports = {
                 NODE_ENV: JSON.stringify("production"),
                 API: JSON.stringify(config.api),
                 THUNDER: JSON.stringify(config.thunder),
-                SENTRY: JSON.stringify(config.sentry)
+                SENTRY: JSON.stringify(config.sentry),
+                SCREEN: JSON.stringify(process.env.SCREEN || "primary")
             }
         })
     ]

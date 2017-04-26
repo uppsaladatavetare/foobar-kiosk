@@ -3,7 +3,7 @@ import { IProductState, IProduct } from "types";
 
 import { Button } from "components";
 
-import * as style from "styles/components/PurchaseButton.scss";
+import * as style from "styles/primary/components/PurchaseButton.scss";
 
 interface IPurchaseButtonProps {
     products: IProductState;

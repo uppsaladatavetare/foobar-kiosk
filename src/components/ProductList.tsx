@@ -5,7 +5,7 @@ import { IProductState, IProduct } from "types";
 import { Box, Flex } from "reflexbox";
 import { Product } from "components";
 
-import * as style from "styles/components/ProductList.scss";
+import * as style from "styles/primary/components/ProductList.scss";
 
 interface IProductListProps {
     products: IProductState;

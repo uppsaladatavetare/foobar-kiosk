@@ -1,0 +1,29 @@
+@import "styles/common/globals";
+
+.container {
+    width: 100%;
+}
+.products {
+    display: flex;
+    flex-wrap: wrap;
+}
+.bar {
+    color: $white;
+    display: block;
+    font-size: 22px;
+    text-align: left;
+    height: 60px;
+    transition: bottom .3s ease;
+    background: $black;
+    z-index: 9;
+    &.active {
+        opacity: 1;
+    }
+    .balance{
+        border-right: 2px solid $grey-dark;
+        margin-right: 16px;
+    }
+    &.notCompleted i{
+        animation: rotating 2s linear infinite;
+    }
+}

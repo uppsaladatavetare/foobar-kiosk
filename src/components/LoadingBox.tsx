@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as classNames from "classnames";
 
-import * as style from "styles/components/LoadingBox.scss";
+import * as style from "styles/primary/components/LoadingBox.scss";
 
 interface ILoadingBoxProps {
     className?: string;

@@ -1,4 +1,4 @@
-@import "styles/globals";
+@import "styles/common/globals";
 
 @font-face {
     font-family: "Open Sans";
@@ -16,7 +16,7 @@
 }
 
 * {
-    padding: 0;
+    padding: 0px;
     margin: 0;
     box-sizing: border-box;
     user-select: none;
@@ -31,13 +31,15 @@ body {
     user-select: none;
     user-drag: none;
 }
+html, body, .fillScreen {
+    width: 100%;
+    height: 100%;
+}
 .container {
-    background: #88a0a8;
-    height: 480px;
-    width: $app-width;
+    background: $white;
     overflow: hidden;
     display: block;
-    position: absolute;
+    flex: 1 !important;
     &.white {
         background: $white;
     }
@@ -45,27 +47,11 @@ body {
         font-size: 28px;
     }
 }
-.quit {
-    position: absolute;
-    top: 0;
-    right: 0;
+.banner {
+    align-items: center;
+    justify-content: center;
 }
-.overlay {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.5);
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-}
-.qrcode {
-    width: 200px;
-    height: 200px;
-    border: solid 5px #fff;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-    box-sizing: content-box;
-}
-p {
-    line-height: 36px;
+.receiptContainer {
+    background-color: darken(#88a0a8, 3%);
+    width: 671px;
 }

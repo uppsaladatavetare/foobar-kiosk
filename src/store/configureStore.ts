@@ -8,6 +8,7 @@ import * as createLogger from "redux-logger";
 import { createStore, applyMiddleware } from "redux";
 
 import rootReducer from "reducers";
+import { thunderCall } from "api";
 
 if (process.env.SENTRY) {
     Raven.config(process.env.SENTRY).install();
@@ -27,6 +28,17 @@ export default function configureStore(initialState: any = {}) {
         module.hot.accept("reducers", () => {
             const nextRootReducer = require("reducers");
             store.replaceReducer(nextRootReducer);
+        });
+    }
+
+    if (process.env.SCREEN === 'primary') {
+        store.subscribe(() => {
+            thunderCall('/channels/state/', {
+                method: "post",
+                body: JSON.stringify({
+                    'state': store.getState()
+                })
+            });
         });
     }
 

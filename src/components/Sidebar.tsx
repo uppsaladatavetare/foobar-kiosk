@@ -3,7 +3,7 @@ import * as React from "react";
 import { Button } from "components";
 import { Flex } from "reflexbox";
 
-import * as style from "styles/components/Sidebar.scss";
+import * as style from "styles/primary/components/Sidebar.scss";
 
 interface ISidebarProps {
     onIncrease: Function;
