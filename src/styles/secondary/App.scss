@@ -50,8 +50,25 @@ html, body, .fillScreen {
 .banner {
     align-items: center;
     justify-content: center;
+    background: url(/static/openhack-bg.png) no-repeat;
+    background-size: cover;
 }
 .receiptContainer {
     background-color: darken(#88a0a8, 3%);
     width: 671px;
+}
+.qrcode {
+    border: solid 5px #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+    box-sizing: content-box;
+}
+.ctaWrapper {
+    background: linear-gradient(to bottom, #7abea0 0%, #24bb78 100%);
+    font: bold 52px Arial;
+    color: #fff;
+    transform: skew(-12deg);
+}
+.cta {
+    transform: skew(12deg);
+    font-style: italic;
 }

@@ -4,3 +4,6 @@ export const white: string;
 export const start: string;
 export const banner: string;
 export const receiptContainer: string;
+export const qrcode: string;
+export const ctaWrapper: string;
+export const cta: string;

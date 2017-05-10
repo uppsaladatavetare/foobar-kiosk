@@ -21,7 +21,7 @@ export default class Cart extends React.Component<ICartProps, {}> {
         }).map((product: IProduct) => {
             return product.price * product.qty;
         }).reduce((x: number, y: number) => x + y, 0);
-        let accountIcon = this.props.account.name ? 'user-circle-o' : 'money';
+        let accountIcon = this.props.account.name ? 'user' : 'money';
 
         return (
             <Flex column className={style.container}>
@@ -38,13 +38,15 @@ export default class Cart extends React.Component<ICartProps, {}> {
                         {this.renderProducts()}
                     </Box>
                 </Flex>
-                <Box>
-                    <Flex className={style.bar} px={2} align="center" auto>
+                <Flex className={style.bar}>
+                    <Flex className={style.name} px={2} align="center">
                         <Icon name={accountIcon} />
                         <Box auto ml={2}>{this.props.account.name || 'Cash payment'}</Box>
-                        <Box>Total: <strong>{total} kr</strong></Box>
                     </Flex>
-                </Box>
+                    <Flex className={style.total} px={2} align="center">
+                        Total: <strong>{total} kr</strong>
+                    </Flex>
+                </Flex>
             </Flex>
         );
     }
@@ -68,7 +70,7 @@ export default class Cart extends React.Component<ICartProps, {}> {
             );
         } else {
             return (
-                <Flex align="center" justify="center">
+                <Flex align="center" justify="center" auto>
                     <Box>Your cart is empty.</Box>
                 </Flex>
             );

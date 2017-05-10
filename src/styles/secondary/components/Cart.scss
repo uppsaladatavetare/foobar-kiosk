@@ -19,9 +19,15 @@
     &.active {
         opacity: 1;
     }
-    .balance{
-        border-right: 2px solid $grey-dark;
-        margin-right: 16px;
+    .total {
+        border-left: 2px solid $grey-dark;
+        flex: 0 0 50%;
+        text-align: right;
+        width: 100%;
+        align-content: right;
+    }
+    .name {
+        flex: 0 0 50%;
     }
     &.notCompleted i{
         animation: rotating 2s linear infinite;

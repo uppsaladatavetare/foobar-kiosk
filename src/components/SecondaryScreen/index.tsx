@@ -39,13 +39,29 @@ export default class SecondaryScreen extends React.Component<IAppProps, {}> {
     }
 
     render() {
+        const bg = require('../../../static/openhack-bg.jpg');
+        const bannerStyle = {
+            backgroundImage: `url(${bg})`
+        };
+        var QRCode = require('qrcode.react');
         return (
             <Flex auto className={style.container}>
                 {this.renderCart()}
-                <Flex p={1} auto className={style.banner}>
-                    <Box>
-                        <img src={require('../../../static/ud.svg')} />
-                    </Box>
+                <Flex auto className={style.banner} style={bannerStyle} column={true}>
+
+                    <Flex p={2} mb={4} className={style.ctaWrapper}>
+                        <Box className={style.cta}>REGISTER TODAY!</Box>
+                    </Flex>
+                    <Flex p={1} align={"center"}>
+                        <Box  mr={3}>
+                            <div className={style.qrcode}>
+                                <QRCode size={275} value={'http://uppsala.openhack.io/'} />
+                            </div>
+                        </Box>
+                        <Box>
+                            <img height={300} src={require('../../../static/openhack.svg')} />
+                        </Box>
+                    </Flex>
                 </Flex>
             </Flex>
         );
