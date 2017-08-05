@@ -1,20 +1,18 @@
-declare const Thunder: any;
-
 import * as React from 'react';
-import { IAppProps, IThunder } from 'types';
+import { IAppProps } from 'types';
 
 import { Flex, Box } from 'reflexbox';
 import Cart from './Cart';
 import Alert from 'components/Alert';
 import * as style from 'styles/secondary/App.scss';
 
-export default class SecondaryScreen extends React.Component<IAppProps, {}> {
+export default class SecondaryScreen extends React.Component<IAppProps> {
     componentDidMount() {
         const { dispatch } = this.props;
 
-        Thunder.connect(process.env.THUNDER.host, process.env.THUNDER.key, ['state']);
-        Thunder.listen((data: IThunder) => {
-            dispatch({'type': '_LOAD_STATE', 'data': JSON.parse(data.payload)});
+        Thunder.connect(config.THUNDER.host, config.THUNDER.key, ['state']);
+        Thunder.listen((data) => {
+            dispatch({type: '_LOAD_STATE', data: JSON.parse(data.payload)});
         });
     }
 

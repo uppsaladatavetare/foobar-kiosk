@@ -1,11 +1,10 @@
 import { IProductState, IProduct } from "types/Product";
 import { IAccount } from "types/Account";
-import { IAppProps, IThunder } from "types/App";
+import { IAppProps } from "types/App";
 
 export {
     IProductState,
     IProduct,
     IAccount,
-    IAppProps,
-    IThunder
-}
+    IAppProps
+};

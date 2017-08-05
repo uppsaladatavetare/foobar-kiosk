@@ -14,20 +14,23 @@ interface ISidebarProps {
     scrollUpActive: boolean;
     scrollDownActive: boolean;
     active: boolean;
-    addRandomProduct?: Function;
 }
 
-export default class Sidebar extends React.Component<ISidebarProps, {}> {
+export default class Sidebar extends React.Component<ISidebarProps> {
     render() {
+        const {
+            scrollUpActive, scrollDownActive, onDecrease, onIncrease, onRemove, active, onScrollDown, onScrollUp
+        } = this.props;
+
         return (
             <Flex column className={style.sidebar}>
-                <Button icon="chevron-up" onClick={this.props.onScrollUp} disabled={!this.props.scrollUpActive}/>
+                <Button icon="chevron-up" onClick={onScrollUp} disabled={!scrollUpActive}/>
                 <Flex column auto justify="center">
-                    <Button icon="plus" disabled={!this.props.active} onClick={this.props.onIncrease}/>
-                    <Button icon="minus" disabled={!this.props.active} onClick={this.props.onDecrease}/>
-                    <Button icon="trash" disabled={!this.props.active} onClick={this.props.onRemove}/>
+                    <Button icon="plus" disabled={!active} onClick={onIncrease}/>
+                    <Button icon="minus" disabled={!active} onClick={onDecrease}/>
+                    <Button icon="trash" disabled={!active} onClick={onRemove}/>
                 </Flex>
-                <Button icon="chevron-down" onClick={this.props.onScrollDown} disabled={!this.props.scrollDownActive}/>
+                <Button icon="chevron-down" onClick={onScrollDown} disabled={!scrollDownActive}/>
             </Flex>
         );
     }

@@ -12,9 +12,9 @@ interface IDevToolbarProps {
     account: IAccount;
 }
 
-export default class DevToolbar extends React.Component<IDevToolbarProps, {}> {
+export default class DevToolbar extends React.Component<IDevToolbarProps> {
     addRandomProduct() {
-        let codes = [
+        const codes = [
             "7310500088853",
             "7340083438684",
             "7611612221351",
@@ -23,13 +23,13 @@ export default class DevToolbar extends React.Component<IDevToolbarProps, {}> {
             "7315360010754",
             "7622300342753"
         ];
-        let randomIndex = Math.floor(Math.random() * codes.length);
+        const randomIndex = Math.floor(Math.random() * codes.length);
         this.props.dispatch(addProduct(codes[randomIndex]));
     }
 
     qrcode() {
         if (this.props.account && this.props.account.token) {
-            var url = process.env.API.host + "/profile/" + this.props.account.token;
+            const url = config.API.host + "/profile/" + this.props.account.token;
             return (
                 <Button icon="qrcode" onClick={() => window.open(url)}/>
             );
@@ -37,17 +37,18 @@ export default class DevToolbar extends React.Component<IDevToolbarProps, {}> {
     }
 
     render() {
-        var dispatch = this.props.dispatch;
-        var classList = classNames({
+        const dispatch = this.props.dispatch;
+        const classList = classNames({
             [style.devbar]: true,
-            [style.fixedWidth]: process.env.SCREEN === 'primary'
+            [style.fixedWidth]: config.SCREEN === 'primary'
         });
+
         return (
             <Flex pl={2} align="center" className={classList}>
-                <Box auto>{process.env.API.host}</Box>
+                <Box auto>{config.API.host}</Box>
                 {this.qrcode()}
                 <Button icon="credit-card" onClick={() => dispatch(login('1337'))}/>
-                <Button icon="plus" onClick={() => this.addRandomProduct()}/>
+                <Button icon="plus" onClick={this.addRandomProduct}/>
             </Flex>
         );
     }

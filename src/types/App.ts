@@ -1,5 +1,6 @@
 import { IAccount } from "types/Account";
 import { IProduct } from "types/Product";
+import { IPurchaseState } from "reducers";
 
 export interface IAppProps {
     dispatch: Function;
@@ -10,10 +11,5 @@ export interface IAppProps {
         maxPage?: number;
     };
     account: IAccount;
-    purchase: any;
-}
-
-export interface IThunder {
-    channel: string;
-    payload: string;
+    purchase: IPurchaseState;
 }

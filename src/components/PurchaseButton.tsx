@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IProductState, IProduct } from "types";
+import { IProductState } from "types";
 
 import { Button } from "components";
 
@@ -7,20 +7,20 @@ import * as style from "styles/primary/components/PurchaseButton.scss";
 
 interface IPurchaseButtonProps {
     products: IProductState;
-    purchaseState: any;
-    accountBalance: any;
+    purchaseState: string;
+    accountBalance: number;
     onPurchase: Function;
 }
 
-export default class PurchaseButton extends React.Component<IPurchaseButtonProps, {}> {
+export default class PurchaseButton extends React.Component<IPurchaseButtonProps> {
     render() {
         const { products, purchaseState, accountBalance, onPurchase } = this.props;
 
-        let total = products.products.filter((product: IProduct) => {
+        const total = products.products.filter((product) => {
             return !product.loading && !product.failed;
-        }).map((product: IProduct) => {
+        }).map((product) => {
             return product.price * product.qty;
-        }).reduce((x: number, y: number) => x + y, 0);
+        }).reduce((x, y) => x + y, 0);
 
         let active = false;
         let alert = false;
@@ -40,7 +40,7 @@ export default class PurchaseButton extends React.Component<IPurchaseButtonProps
                 disabled={!active}
                 success={active}
                 alert={alert}
-                onClick={(active ? () => onPurchase() : undefined)}/>
+                onClick={onPurchase}/>
         );
     }
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-//import { ApDigitalClock, ApDigitalClockStyle }  from 'apeman-react-clock';
-import { IProductState, IProduct, IAccount } from 'types';
+import { IProductState, IAccount } from 'types';
 import Product from './Product';
 import Icon from 'components/Icon';
 
@@ -14,14 +13,14 @@ interface ICartProps {
     account: IAccount;
 }
 
-export default class Cart extends React.Component<ICartProps, {}> {
+export default class Cart extends React.Component<ICartProps> {
     render() {
-        let total = this.props.products.products.filter((product: IProduct) => {
+        const total = this.props.products.products.filter((product) => {
             return !product.loading && !product.failed;
-        }).map((product: IProduct) => {
+        }).map((product) => {
             return product.price * product.qty;
-        }).reduce((x: number, y: number) => x + y, 0);
-        let accountIcon = this.props.account.name ? 'user-circle-o' : 'money';
+        }).reduce((x, y) => x + y, 0);
+        const accountIcon = this.props.account.name ? 'user-circle-o' : 'money';
 
         return (
             <Flex column className={style.container}>
@@ -52,7 +51,7 @@ export default class Cart extends React.Component<ICartProps, {}> {
     renderProducts() {
         const { products } = this.props;
         if (products.products.length > 0) {
-            let content = products.products.map((product: IProduct) => {
+            const content = products.products.map((product) => {
                 return <Product {...product} key={product.code} />;
             });
 

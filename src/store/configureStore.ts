@@ -1,7 +1,7 @@
-declare var module: { hot: any };
+declare const module: { hot: any };
 
-import Raven = require("raven-js");
-var createRavenMiddleware = require("raven-for-redux");
+import * as Raven from "raven-js";
+const createRavenMiddleware = require("raven-for-redux");
 
 import thunkMiddleware from "redux-thunk";
 import * as createLogger from "redux-logger";
@@ -10,8 +10,8 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from "reducers";
 import { thunderCall } from "api";
 
-if (process.env.SENTRY) {
-    Raven.config(process.env.SENTRY).install();
+if (config.SENTRY) {
+    Raven.config(config.SENTRY).install();
 }
 
 const createStoreWithMiddleware = applyMiddleware(
@@ -31,12 +31,12 @@ export default function configureStore(initialState: any = {}) {
         });
     }
 
-    if (process.env.SCREEN === 'primary') {
+    if (config.SCREEN === 'primary') {
         store.subscribe(() => {
             thunderCall('/channels/state/', {
                 method: "post",
                 body: JSON.stringify({
-                    'state': store.getState()
+                    state: store.getState()
                 })
             });
         });

@@ -6,8 +6,10 @@ interface IIconProps {
     className?: string;
 }
 
-export default class Icon extends React.Component<IIconProps, {}> {
+export default class Icon extends React.Component<IIconProps> {
     render() {
-        return <i className={classNames('fa', 'fa-' + this.props.name, this.props.className)}></i>;
+        const { name, className = "" } = this.props;
+
+        return <i className={classNames('fa', 'fa-' + name, className)}/>;
     }
 }

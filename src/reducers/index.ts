@@ -22,3 +22,9 @@ export default function(state: any = {}, action: any) {
     }
     return rootReducer(state, action);
 }
+
+export {
+    IProductState,
+    IAccountState,
+    IPurchaseState
+};

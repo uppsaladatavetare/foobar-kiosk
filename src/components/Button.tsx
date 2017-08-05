@@ -7,7 +7,7 @@ import { Box, Flex } from "reflexbox";
 import * as style from "styles/primary/components/Button.scss";
 
 interface IButtonProps {
-    onClick: Function;
+    onClick?: Function;
     icon?: string;
     label?: string;
     className?: string;
@@ -16,23 +16,25 @@ interface IButtonProps {
     alert?: boolean;
 }
 
-export default class Button extends React.Component<IButtonProps, {}> {
+export default class Button extends React.Component<IButtonProps> {
+    onClick() {
+        if (!this.props.disabled && this.props.onClick) {
+            this.props.onClick();
+        }
+    }
+
     render() {
-        let className = classNames(style.button, this.props.className, {
-            [style.disabled]: this.props.disabled,
-            [style.alert]: this.props.alert,
-            [style.active]: this.props.success
+        const { disabled = false, alert = false, success = false, className = "", label, icon } = this.props;
+        const classList = classNames(style.button, className, {
+            [style.disabled]: disabled,
+            [style.alert]: alert,
+            [style.active]: success
         });
 
         return (
-            <Flex
-                p={2}
-                align="center"
-                justify="center"
-                onClick={this.props.onClick}
-                className={className}>
-                {(this.props.label ? <Box auto>{this.props.label}</Box> : undefined)}
-                {(this.props.icon ? <Box><Icon name={this.props.icon}/></Box> : undefined)}
+            <Flex p={2} align="center" justify="center" onClick={this.onClick} className={classList}>
+                {!!label && <Box auto>{label}</Box>}
+                {!!icon && <Icon name={icon}/>}
             </Flex>
         );
     }

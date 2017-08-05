@@ -10,25 +10,25 @@ interface IAccountProps {
     viewProfileQR: Function;
 }
 
-export default class Account extends React.Component<IAccountProps, {}> {
-
+export default class Account extends React.Component<IAccountProps> {
     render() {
-        var classList = classNames({
+        const { account, viewProfileQR } = this.props;
+        const classList = classNames({
             [style.account]: true,
-            [style.notCompleted]: !this.props.account.is_complete
+            [style.notCompleted]: !account.is_complete
         });
-        if (this.props.account.id) {
+
+        if (account.id) {
             return (
                 <Flex className={classList} px={2} align="center" auto>
-                    <Box auto>{this.props.account.name}</Box>
+                    <Box auto>{account.name}</Box>
                     <Button
                         icon="edit"
                         className={style.balance}
-                        onClick={this.props.viewProfileQR}/>
-                    <Box>Balance: {this.props.account.balance} kr</Box>
+                        onClick={viewProfileQR}/>
+                    <Box>Balance: {account.balance} kr</Box>
                 </Flex>
             );
-
         } else {
             return (
                 <Flex className={style.account} px={2} align="center" auto>

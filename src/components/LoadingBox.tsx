@@ -7,10 +7,12 @@ interface ILoadingBoxProps {
     className?: string;
 }
 
-export default class LoadingBox extends React.Component<ILoadingBoxProps, {}> {
+export default class LoadingBox extends React.Component<ILoadingBoxProps> {
     render() {
+        const { className = "" } = this.props;
+
         return (
-            <div className={classNames(style.loading, this.props.className)}>
+            <div className={classNames(style.loading, className)}>
                 <div/>
                 <div/>
                 <div/>
@@ -19,4 +21,4 @@ export default class LoadingBox extends React.Component<ILoadingBoxProps, {}> {
             </div>
         );
     }
-};
+}
