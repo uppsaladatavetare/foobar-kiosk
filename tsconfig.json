@@ -25,7 +25,7 @@
   },
   "awesomeTypescriptLoaderOptions": {
     "useCache": true,
-    "cacheDirectory": "./build/awCache"
+    "cacheDirectory": "./.awCache"
   },
   "include": [
     "src",

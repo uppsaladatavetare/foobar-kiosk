@@ -17,7 +17,7 @@ interface IButtonProps {
 }
 
 export default class Button extends React.Component<IButtonProps> {
-    onClick() {
+    onClick = () => {
         if (!this.props.disabled && this.props.onClick) {
             this.props.onClick();
         }
