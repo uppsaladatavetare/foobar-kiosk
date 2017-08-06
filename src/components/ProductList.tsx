@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import { IProductState, IProduct } from "types";
+import { IProductState } from "types";
 
 import { Box, Flex } from "reflexbox";
 import { Product } from "components";
@@ -12,10 +12,10 @@ interface IProductListProps {
     onSelect: Function;
 }
 
-export default class ProductList extends React.Component<IProductListProps, {}> {
+export default class ProductList extends React.Component<IProductListProps> {
     render() {
         if (this.props.products.products.length > 0) {
-            let content = this.props.products.products.map((product: IProduct) => {
+            const content = this.props.products.products.map((product) => {
                 return <Product {...product} key={product.code} onSelect={this.props.onSelect}/>;
             });
 

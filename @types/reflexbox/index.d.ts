@@ -9,7 +9,7 @@ declare module "reflexbox" {
 
 declare namespace __Reflexbox {
     interface Props {
-        auto?: boolean
+        auto?: boolean;
         className?: string;
         is?: string | Object | Function;
         key?: string | number;
@@ -29,7 +29,7 @@ declare namespace __Reflexbox {
         pt?: number;
         pb?: number;
         pl?: number;
-        pr?: number,
+        pr?: number;
         sm?: boolean;
         style?: React.CSSProperties;
     }
@@ -41,7 +41,7 @@ declare namespace __Reflexbox {
         order?: number;
     }
 
-    export class Box extends React.Component<BoxProps, {}> { }
+    export class Box extends React.Component<BoxProps> { }
 
     interface FlexProps extends Props {
         align?: "stretch" | "center" | "baseline" | "flex-start" | "flex-end";
@@ -53,7 +53,7 @@ declare namespace __Reflexbox {
         wrap?: boolean;
     }
 
-    export class Flex extends React.Component<FlexProps, {}> { }
+    export class Flex extends React.Component<FlexProps> { }
 }
 
 declare module "reflexbox/Box" {

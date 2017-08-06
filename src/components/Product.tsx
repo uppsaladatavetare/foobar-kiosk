@@ -11,7 +11,7 @@ interface IProductProps extends IProduct {
     onSelect: Function;
 }
 
-export default class Product extends React.Component<IProductProps, {}> {
+export default class Product extends React.Component<IProductProps> {
     render() {
         if (this.props.loading) {
             return (

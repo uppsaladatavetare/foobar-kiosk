@@ -8,27 +8,27 @@ export const FAILED_ACCOUNT = "FAILED_ACCOUNT";
 export const LOGIN_ACCOUNT = "LOGIN_ACCOUNT";
 export const CLEAR_ACCOUNT = "CLEAR_ACCOUNT";
 
-export function requestAccount(cardId: string) {
+export function requestAccount(cardId?: string) {
     return {
         type: REQUEST_ACCOUNT,
         cardId
     };
-};
+}
 
-export function receiveAccount(data: IAccount = undefined) {
+export function receiveAccount(data?: IAccount) {
     return {
         type: LOGIN_ACCOUNT,
         data
     };
-};
+}
 
 export function failedRequestAccount() {
     return {
         type: FAILED_ACCOUNT
     };
-};
+}
 
-export function login(cardId: string = undefined) {
+export function login(cardId?: string) {
     return (dispatch: Function, getState: any) => {
         const { account } = getState();
 
@@ -58,10 +58,10 @@ export function login(cardId: string = undefined) {
             }
         }
     };
-};
+}
 
 export function clearAccount() {
     return {
         type: CLEAR_ACCOUNT
     };
-};
+}

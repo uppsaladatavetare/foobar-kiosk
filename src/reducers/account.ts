@@ -2,8 +2,6 @@ import * as Redux from "redux";
 
 import { REQUEST_ACCOUNT, LOGIN_ACCOUNT, CLEAR_ACCOUNT, FAILED_ACCOUNT } from "actions/account";
 
-const objectAssign = require("object-assign");
-
 export interface IState {
     id?: string;
     name?: string;
@@ -19,7 +17,7 @@ interface IAction extends Redux.Action {
 export function account(state: IState = {}, action: IAction) {
     switch (action.type) {
         case REQUEST_ACCOUNT:
-            return objectAssign({}, state, {
+            return Object.assign({}, state, {
                 request: true
             });
         case LOGIN_ACCOUNT:
@@ -27,10 +25,10 @@ export function account(state: IState = {}, action: IAction) {
         case CLEAR_ACCOUNT:
             return {};
         case FAILED_ACCOUNT:
-            return objectAssign({}, state, {
+            return Object.assign({}, state, {
                 failed: true
             });
         default:
             return state;
     }
-};
+}

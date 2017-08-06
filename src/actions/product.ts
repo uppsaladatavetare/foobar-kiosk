@@ -34,7 +34,7 @@ class Cache {
     }
 
     add(key: string, value: any, ttl: number) {
-        let expirationDate = new Date();
+        const expirationDate = new Date();
         expirationDate.setSeconds(expirationDate.getSeconds() + ttl);
 
         this.cache[key] = {
@@ -93,7 +93,7 @@ class ProductFetcher {
         // appropriate actions
         dispatch(requestProduct(code));
         this.promises[code] = apiCall(`/products/?code=${code}`)
-            .then((response: IResponse) => {
+            .then((response: any) => {
                 return response.json();
             })
             .then((data: IProduct[]) => {
@@ -111,7 +111,7 @@ class ProductFetcher {
     }
 }
 
-let fetcher = new ProductFetcher();
+const fetcher = new ProductFetcher();
 
 export function addProduct(code: string) {
     return (dispatch: Function, getState: Function) => {
@@ -124,58 +124,59 @@ export function addProduct(code: string) {
             return fetcher.productWithCode(dispatch, code);
         }
     };
-};
+}
 
 export function requestProduct(code: string) {
     return {
         type: REQUEST_PRODUCT,
         code
     };
-};
+}
+
 export function failedProduct(code: string) {
     return {
         type: FAILED_PRODUCT,
         code
     };
-};
+}
 
 export function receiveProduct(product: IProduct) {
     return {
         type: ADD_PRODUCT,
         product
     };
-};
+}
 
 export function increaseProductQty(count: number) {
     return {
         type: INCREASE_PRODUCT_QTY,
         count
     };
-};
+}
 
 export function selectProduct(code: string) {
     return {
         type: SELECT_PRODUCT,
         code
     };
-};
+}
 
 export function removeProduct(code?: string) {
     return {
         type: REMOVE_PRODUCT,
         code
     };
-};
+}
 
 export function changePage(count: number) {
     return {
         type: CHANGE_PAGE,
         count
     };
-};
+}
 
 export function clearProducts() {
     return {
         type: CLEAR_PRODUCTS
     };
-};
+}

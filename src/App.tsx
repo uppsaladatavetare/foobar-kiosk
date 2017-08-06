@@ -10,10 +10,10 @@ import { Flex } from "reflexbox";
 import { DevToolbar } from "components";
 import { IAppProps } from "types";
 
-class App extends React.Component<IAppProps, {}> {
+class App extends React.Component<IAppProps> {
     render() {
-        var classList = classNames({
-            [style.fillScreen]: process.env.SCREEN === 'secondary',
+        const classList = classNames({
+            [style.fillScreen]: config.SCREEN === 'secondary'
         });
         return (
             <Flex column className={classList}>
@@ -24,7 +24,7 @@ class App extends React.Component<IAppProps, {}> {
     }
 
     renderDevToolbar() {
-        if (process.env.NODE_ENV === 'development') {
+        if (__DEV__) {
             return (
                 <DevToolbar
                     dispatch={this.props.dispatch}
@@ -35,9 +35,9 @@ class App extends React.Component<IAppProps, {}> {
     }
 
     renderApp() {
-        if (process.env.SCREEN === 'primary') {
+        if (config.SCREEN === 'primary') {
             return (<PrimaryScreen {...this.props} />);
-        } else if (process.env.SCREEN === 'secondary') {
+        } else if (config.SCREEN === 'secondary') {
             return (<SecondaryScreen {...this.props} />);
         }
     }

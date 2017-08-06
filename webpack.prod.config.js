@@ -6,6 +6,7 @@ const config = require(process.env.SETTINGS || "./configs/live.js");
 
 module.exports = {
     entry: [
+        "tslib",
         path.resolve("src/App")
     ],
     output: {
@@ -21,11 +22,6 @@ module.exports = {
         ]
     },
     module: {
-        preLoaders: [{
-            test: /(\.tsx?)$/,
-            loader: "tslint",
-            exclude: /node_modules/
-        }],
         loaders: [{
             test: /\.tsx?$/,
             loader: "awesome-typescript",
@@ -34,13 +30,14 @@ module.exports = {
             test: /(\.scss|\.css)$/,
             loaders: [
                 "style",
-                "css?sourceMap&modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]",
-                "typed-css-modules?rootDir=src&searchDir=styles",
+                "typings-for-css-modules?modules&importLoaders=1&" +
+                    "localIdentName=[name]_[local]_[hash:base64:5]&sass&namedExport&camelCase",
                 "postcss",
                 "sass"
             ]
         }, {
-            test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/, loader: 'file'
+            test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
+            loader: "file"
         }]
     },
     postcss: [
@@ -64,12 +61,15 @@ module.exports = {
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             "process.env": {
-                NODE_ENV: JSON.stringify("production"),
+                NODE_ENV: JSON.stringify("production")
+            },
+            "config": {
                 API: JSON.stringify(config.api),
                 THUNDER: JSON.stringify(config.thunder),
                 SENTRY: JSON.stringify(config.sentry),
                 SCREEN: JSON.stringify(process.env.SCREEN || "primary")
-            }
+            },
+            "__DEV__": false
         })
     ]
 };

@@ -14,28 +14,28 @@ export function newPurchase() {
     return {
         type: NEW_PURCHASE
     };
-};
+}
 
 export function pendingPurchase() {
     return {
         type: PENDING_PURCHASE
     };
-};
+}
 
 export function finalizePurchase(data: any) {
-    var cashSound = new Audio(require('../../static/cash.wav'));
+    const cashSound = new Audio(require('../../static/cash.wav'));
     cashSound.play();
     return {
         type: FINALIZE_PURCHASE,
         data
     };
-};
+}
 
 export function viewProfileQR() {
     return {
         type: PROFILE
     };
-};
+}
 
 export function clearPurchase() {
     return (dispatch: Function) => {
@@ -43,16 +43,16 @@ export function clearPurchase() {
         dispatch(clearAccount());
         dispatch(endPurchase());
     };
-};
+}
 
 export function endPurchase() {
     return {
         type: END_PURCHASE
     };
-};
+}
 
 export function cancelPurchase() {
-    var doorSound = new Audio(require('../../static/door.wav'));
+    const doorSound = new Audio(require('../../static/door.wav'));
     doorSound.play();
     return clearPurchase();
 }
@@ -65,7 +65,7 @@ export function requestPurchase() {
         return apiCall("/purchases/", {
             method: "post",
             body: JSON.stringify({
-                account_id: (account.id ? account.id : null), // tslint:disable-line
+                account_id: (account.id ? account.id : null),
                 products: products.products.filter((product: IProduct) => {
                     return !product.loading && !product.failed;
                 }).map((product: IProduct) => {
@@ -76,7 +76,7 @@ export function requestPurchase() {
                 })
             })
         })
-            .then((response: IResponse) => {
+            .then((response: any) => {
                 return response.json();
             })
             .then((data: any) => {
@@ -90,4 +90,4 @@ export function requestPurchase() {
                 }, 5000);
             });
     };
-};
+}

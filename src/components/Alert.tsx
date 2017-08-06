@@ -7,7 +7,7 @@ interface IAlertProps {
     msg: string;
 }
 
-export default class Alert extends React.Component<IAlertProps, {}> {
+export default class Alert extends React.Component<IAlertProps> {
     render() {
         return (
             <Flex auto className={style.alert} column align='center' justify='center'>

@@ -7,10 +7,7 @@ import { LoadingBox } from "components";
 
 import * as style from "styles/secondary/components/Product.scss";
 
-interface IProductProps extends IProduct {
-}
-
-export default class Product extends React.Component<IProductProps, {}> {
+export default class Product extends React.Component<IProduct> {
     render() {
         if (this.props.loading) {
             return (
