@@ -22,7 +22,7 @@ export default class ProductList extends React.Component<IProductListProps> {
             return (
                 <ReactCSSTransitionGroup
                     component={Flex}
-                    style={{ transform: "translate(0, " + this.props.products.page * -206 + "px)" }}
+                    style={{ transform: "translate(0, " + this.props.products.page * -246 + "px)" }}
                     className={style.grid}
                     transitionName="product"
                     transitionEnterTimeout={300}

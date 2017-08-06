@@ -5,11 +5,12 @@
 }
 .grid {
     height: 420px;
-    padding: 4px;
+    padding-top: 8px;
     z-index: 0;
     transition: transform .3s ease;
     flex-wrap: wrap;
     align-items: flex-start;
+    align-content: flex-start;
     justify-content: flex-start;
     flex: 1 1 auto;
 }
