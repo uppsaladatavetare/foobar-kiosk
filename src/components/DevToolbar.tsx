@@ -48,7 +48,7 @@ export default class DevToolbar extends React.Component<IDevToolbarProps> {
                 <Box auto>{config.API.host}</Box>
                 {this.qrcode()}
                 <Button icon="credit-card" onClick={() => dispatch(login('1337'))}/>
-                <Button icon="plus" onClick={this.addRandomProduct}/>
+                <Button icon="plus" onClick={() => this.addRandomProduct()}/>
             </Flex>
         );
     }
