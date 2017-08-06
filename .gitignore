@@ -1,6 +1,7 @@
 .DS_Store
 env/
 node_modules/
-config.js
+config.dev.ts
+config.prod.ts
 build/build.js
-build/awCache/
+.awCache/
