@@ -1,40 +1,90 @@
 import * as React from "react";
-import { IAccount } from "types";
-import * as classNames from "classnames";
-import { Box, Flex } from "reflexbox";
-import { Button } from "components";
-import * as style from "styles/primary/components/Account.scss";
+import { observer } from "mobx-react";
+import { style, classes, keyframes } from "typestyle";
+import { white, black, greyDark } from "common/styling";
+import { accountStore } from "store/AccountStore";
+import { Button } from "components/Button";
+import { Icon } from "components/Icon";
+import { viewStore } from "store/ViewStore";
+import { ProfilePopup } from "components/Popups/Profile";
 
-interface IAccountProps {
-    account: IAccount;
-    viewProfileQR: Function;
-}
+const roatingAnimation = keyframes({
+    "10%, 90%": {
+        transform: "rotate(-10deg)"
+    },
+    "20%, 80%": {
+        transform: "rotate(10deg)"
+    },
+    "30%, 50%, 70%": {
+        transform: "rotate(-30deg)"
+    },
+    "40%, 60%": {
+        transform: "rotate(30deg)"
+    }
+});
 
-export default class Account extends React.Component<IAccountProps> {
+const classNames = {
+    account: style({
+        color: white,
+        display: "flex",
+        fontSize: 22,
+        textAlign: "left",
+        height: 60,
+        transition: "bottom .3s ease",
+        background: black,
+        zIndex: 9,
+        padding: "0 16px",
+        lineHeight: "60px",
+        alignItems: "center",
+        flex: 1
+    }),
+    notCompleted: style({
+        animationName: roatingAnimation,
+        animationDuration: "2s",
+        animationIterationCount: "infinite"
+    }),
+    name: style({
+        flex: 1
+    }),
+    button: style({
+        borderRight: "2px solid",
+        borderColor: greyDark,
+        marginRight: 16
+    })
+};
+
+@observer
+export class Account extends React.Component {
+    showProfile = () => {
+        const account = accountStore.account;
+
+        if (account) {
+            viewStore.showPopup({
+                component: <ProfilePopup account={account}/>,
+                blockInput: true,
+                autoCloseDelay: 5000
+            });
+        }
+    }
+
     render() {
-        const { account, viewProfileQR } = this.props;
-        const classList = classNames({
-            [style.account]: true,
-            [style.notCompleted]: !account.is_complete
-        });
-
-        if (account.id) {
+        const account = accountStore.account;
+        if (!account || account.failed) {
             return (
-                <Flex className={classList} px={2} align="center" auto>
-                    <Box auto>{account.name}</Box>
-                    <Button
-                        icon="edit"
-                        className={style.balance}
-                        onClick={viewProfileQR}/>
-                    <Box>Balance: {account.balance} kr</Box>
-                </Flex>
-            );
-        } else {
-            return (
-                <Flex className={style.account} px={2} align="center" auto>
-                    <Box>Paying with cash</Box>
-                </Flex>
+                <div className={classNames.account}>
+                    Paying with cash
+                </div>
             );
         }
+
+        return (
+            <div className={classNames.account}>
+                <div className={classNames.name}>{account.name}</div>
+                <Button onClick={this.showProfile} className={classNames.button}>
+                    <Icon name="edit" className={classes(!account.isComplete && classNames.notCompleted)}/>
+                </Button>
+                <div>Balance: {account.balance} kr</div>
+            </div>
+        );
     }
 }

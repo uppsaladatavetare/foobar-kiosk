@@ -1,13 +1,74 @@
 import * as React from "react";
-import * as classNames from "classnames";
+import { observer } from "mobx-react";
+import { style, classes } from "typestyle";
+import { green, greyDark, white, black, greenDark, red, redDark } from "common/styling";
+import { Icon } from "components/Icon";
 
-import Icon from "components/Icon";
-import { Box, Flex } from "reflexbox";
-
-import * as style from "styles/primary/components/Button.scss";
+const classNames = {
+    button: style({
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        color: white,
+        height: 60,
+        fontSize: 28,
+        padding: "0 16px",
+        minWidth: 60,
+        background: black,
+        transition: "background 0.3s ease",
+        fontWeight: 600,
+        $nest: {
+            "&:hover": {
+                background: greyDark
+            },
+            "&&:active": {
+                background: greyDark
+            }
+        }
+    }),
+    disabled: style({
+        color: greyDark,
+        cursor: "default",
+        $nest: {
+            "&:hover": {
+                background: black
+            },
+            "&&:active": {
+                background: black
+            }
+        }
+    }),
+    success: style({
+        background: green,
+        $nest: {
+            "&:hover": {
+                background: greenDark
+            },
+            "&&:active": {
+                background: greenDark
+            }
+        }
+    }),
+    alert: style({
+        background: red,
+        color: white,
+        $nest: {
+            "&:hover": {
+                background: redDark
+            },
+            "&&:active": {
+                background: redDark
+            }
+        }
+    }),
+    label: style({
+        flex: 1
+    })
+};
 
 interface IButtonProps {
-    onClick?: Function;
+    onClick?: () => void;
     icon?: string;
     label?: string;
     className?: string;
@@ -16,26 +77,30 @@ interface IButtonProps {
     alert?: boolean;
 }
 
-export default class Button extends React.Component<IButtonProps> {
+@observer
+export class Button extends React.Component<IButtonProps> {
     onClick = () => {
-        if (!this.props.disabled && this.props.onClick) {
-            this.props.onClick();
+        const { disabled, onClick } = this.props;
+
+        if (!disabled && onClick) {
+            onClick();
         }
     }
 
     render() {
-        const { disabled = false, alert = false, success = false, className = "", label, icon } = this.props;
-        const classList = classNames(style.button, className, {
-            [style.disabled]: disabled,
-            [style.alert]: alert,
-            [style.active]: success
-        });
+        const { disabled, alert, success, className, label, icon, children } = this.props;
+        const containerClasses = classes(classNames.button, className,
+            disabled && classNames.disabled,
+            alert && classNames.alert,
+            success && classNames.success
+        );
 
         return (
-            <Flex p={2} align="center" justify="center" onClick={this.onClick} className={classList}>
-                {!!label && <Box auto>{label}</Box>}
+            <div className={containerClasses} onClick={this.onClick}>
+                {!!label && <div className={classNames.label}>{label}</div>}
                 {!!icon && <Icon name={icon}/>}
-            </Flex>
+                {children}
+            </div>
         );
     }
 }

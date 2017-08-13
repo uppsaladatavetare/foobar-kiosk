@@ -27,3 +27,17 @@ declare module "*.scss" {
     const classNames: IClassNames;
     export = classNames;
 }
+
+// Fix until react-transition-group and @types/react-transition-group match their exports
+declare module "react-transition-group" {
+    import * as InternalTransitionGroup from "react-transition-group/TransitionGroup";
+    import * as InternalCSSTransition from "react-transition-group/CSSTransition";
+
+    class TransitionGroup extends React.Component<InternalTransitionGroup.TransitionGroupProps> {}
+    class CSSTransition extends React.Component<InternalCSSTransition.CSSTransitionProps> {}
+
+    export {
+        TransitionGroup,
+        CSSTransition
+    };
+}

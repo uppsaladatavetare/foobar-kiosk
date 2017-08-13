@@ -23,7 +23,7 @@ new WebpackDevServer(webpack({
         publicPath
     },
     resolve: {
-        extensions: [".css", ".scss", ".js", ".jsx", ".ts", ".tsx", ".json"],
+        extensions: [".css", ".js", ".jsx", ".ts", ".tsx", ".json"],
         modules: [
             path.resolve("node_modules"),
             path.resolve("src")
@@ -32,43 +32,15 @@ new WebpackDevServer(webpack({
     module: {
         rules: [{
             test: /\.tsx?$/,
-            use: [
-                "react-hot-loader",
-                "awesome-typescript-loader"
-            ],
+            loader: "awesome-typescript-loader",
             exclude: /node_modules/
-        }, {
-            test: /\.s?css$/,
-            use: [
-                "style-loader",
-                {
-                    loader: "typings-for-css-modules-loader",
-                    options: {
-                        modules: true,
-                        importLoaders: 1,
-                        localIdentName: "[name]_[local]_[hash:base64:5]",
-                        sass: true,
-                        namedExport: true,
-                        camelCase: true
-                    }
-                },
-                "postcss-loader",
-                {
-                    loader: "sass-loader",
-                    options: {
-                        includePaths: [
-                            path.resolve("node_modules"),
-                            path.resolve("src")
-                        ]
-                    }
-                }
-            ]
         }, {
             test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
             loader: "file-loader"
         }]
     },
     plugins: [
+        new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             "process.env": {

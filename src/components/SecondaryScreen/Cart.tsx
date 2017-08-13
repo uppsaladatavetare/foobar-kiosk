@@ -1,76 +1,84 @@
-import * as React from 'react';
-import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { IProductState, IAccount } from 'types';
-import Product from './Product';
-import Icon from 'components/Icon';
+import * as React from "react";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { observer } from "mobx-react";
+import { style } from "typestyle";
+import { white, black, greyDark } from "common/styling";
+import { Product } from "components/SecondaryScreen/Product";
+import { Icon } from "components/Icon";
+import { purchaseStore } from "store/PurchaseStore";
+import { accountStore } from "store/AccountStore";
+import { cartStore } from "store/CartStore";
 
-import { Box, Flex } from 'reflexbox';
+const classNames = {
+    container: style({
+        width: "100%"
+    }),
+    products: style({
+        display: "flex",
+        flexWrap: "wrap"
+    }),
+    bar: style({
+        color: white,
+        display: "block",
+        fontSize: 22,
+        textAlign: "left",
+        height: 60,
+        transition: "bottom .3s ease",
+        background: black,
+        zIndex: 9
+    }),
+    active: style({
+        opacity: 1
+    }),
+    balance: style({
+        borderRight: "2px solid",
+        borderColor: greyDark,
+        marginRight: 16
+    }),
+    notCompleted: style({
+        animation: "rotating 2s linear infinite"
+    })
+};
 
-import * as style from 'styles/secondary/components/Cart.scss';
+@observer
+export class Cart extends React.Component {
+    renderProducts() {
+        if (cartStore.products.size === 0) {
+            return <div>Your cart is empty.</div>;
+        }
 
-interface ICartProps {
-    products: IProductState;
-    account: IAccount;
-}
-
-export default class Cart extends React.Component<ICartProps> {
-    render() {
-        const total = this.props.products.products.filter((product) => {
-            return !product.loading && !product.failed;
-        }).map((product) => {
-            return product.price * product.qty;
-        }).reduce((x, y) => x + y, 0);
-        const accountIcon = this.props.account.name ? 'user-circle-o' : 'money';
+        const content = cartStore.products.values().map((product) => {
+            return (
+                <CSSTransition classNames="product" timeout={300}>
+                    <Product product={product} key={product.code}/>
+                </CSSTransition>
+            );
+        });
 
         return (
-            <Flex column className={style.container}>
-                <Box>
-                    <Flex className={style.bar} px={2} align="center" auto>
-                        <Flex auto>
-                            <Icon name="shopping-cart" />
-                            <Box ml={2}>Your shopping cart</Box>
-                        </Flex>
-                    </Flex>
-                </Box>
-                <Flex auto pt={1} pr={1}>
-                    <Box>
-                        {this.renderProducts()}
-                    </Box>
-                </Flex>
-                <Box>
-                    <Flex className={style.bar} px={2} align="center" auto>
-                        <Icon name={accountIcon} />
-                        <Box auto ml={2}>{this.props.account.name || 'Cash payment'}</Box>
-                        <Box>Total: <strong>{total} kr</strong></Box>
-                    </Flex>
-                </Box>
-            </Flex>
+            <TransitionGroup className={classNames.products}>
+                {content}
+            </TransitionGroup>
         );
     }
 
-    renderProducts() {
-        const { products } = this.props;
-        if (products.products.length > 0) {
-            const content = products.products.map((product) => {
-                return <Product {...product} key={product.code} />;
-            });
+    render() {
+        const account = accountStore.account;
+        const accountIcon = account && account.name ? "user-circle-o" : "money";
 
-            return (
-                <ReactCSSTransitionGroup
-                    component='div'
-                    className={style.products}
-                    transitionName="product"
-                    transitionEnterTimeout={300}
-                    transitionLeaveTimeout={300}>
-                    {content}
-                </ReactCSSTransitionGroup>
-            );
-        } else {
-            return (
-                <Flex align="center" justify="center">
-                    <Box>Your cart is empty.</Box>
-                </Flex>
-            );
-        }
+        return (
+            <div className={classNames.container}>
+                <div className={classNames.bar}>
+                        <Icon name="shopping-cart" />
+                        <div>Your shopping cart</div>
+                </div>
+                {this.renderProducts()}
+                <div className={classNames.bar}>
+                    <Icon name={accountIcon}/>
+                    <div>{account ? account.name : "Cash payment"}</div>
+                    <div>Total: <strong>{purchaseStore.total} kr</strong></div>
+                </div>
+            </div>
+        );
     }
 }
