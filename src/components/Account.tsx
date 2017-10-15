@@ -69,7 +69,7 @@ export class Account extends React.Component {
 
     render() {
         const account = accountStore.account;
-        if (!account || account.failed) {
+        if (!account || account.failed || account.isLoading) {
             return (
                 <div className={classNames.account}>
                     Paying with cash

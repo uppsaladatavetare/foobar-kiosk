@@ -6,7 +6,7 @@ export interface IPopup {
     onClose?: () => void;
 }
 
-export class Popup {
+export class Popup implements IPopup {
     component: React.ReactNode;
     blockInput: boolean;
     autoCloseDelay?: number;

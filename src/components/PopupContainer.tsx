@@ -100,17 +100,15 @@ export class PopupContainer extends React.Component {
         reaction(
             () => viewStore.popups.length > 0 && viewStore.popups[0],
             (popup) => {
-                console.log(viewStore.popups, popup);
                 if (popup) {
                     if (popup.autoCloseDelay) {
                         setTimeout(() => {
-                            viewStore.closePopup();
+                            viewStore.closePopup(popup);
                         }, popup.autoCloseDelay);
                     }
                     if (popup.closeWhen) {
                         when(popup.closeWhen, () => {
-                            console.log("when");
-                            viewStore.closePopup();
+                            viewStore.closePopup(popup);
                         });
                     }
                 }
@@ -120,7 +118,7 @@ export class PopupContainer extends React.Component {
 
     closePopup = () => {
         if (viewStore.popups.length > 0 && !viewStore.popups[0].blockInput) {
-            viewStore.closePopup();
+            viewStore.closePopup(viewStore.popups[0]);
         }
     }
 

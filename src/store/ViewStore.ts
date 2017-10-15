@@ -31,13 +31,13 @@ class ViewStore {
     }
 
     @action
-    closePopup() {
-        const popup = this.popups[0];
-        if (popup) {
+    closePopup(popup: Popup) {
+        const index = this.popups.indexOf(popup);
+        if (this.popups.length > 0) {
             if (popup.onClose) {
                 popup.onClose();
             }
-            this.popups.splice(0, 1);
+            this.popups.splice(index, 1);
         }
     }
 }
