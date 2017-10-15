@@ -4,6 +4,8 @@ import { observer } from "mobx-react";
 import { style } from "typestyle";
 import { white, greyDark } from "common/styling";
 
+import * as udLogo from "../static/ud.svg";
+
 const classNames = {
     container: style({
         background: white,
@@ -25,8 +27,6 @@ const classNames = {
         width: 671
     })
 };
-
-const udLogo = require("../static/ud.svg");
 
 @observer
 export class SecondaryScreen extends React.Component {

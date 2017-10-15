@@ -7,8 +7,8 @@ import { viewStore } from "store/ViewStore";
 import { TextPopupType, TextPopup } from "components/Popups/Text";
 import { LoadingPopup } from "components/Popups/Loading";
 
-const cashSound = new Audio(require("../../static/cash.wav"));
-const doorSound = new Audio(require("../../static/door.wav"));
+import * as cashSound from "../../static/cash.wav";
+import * as doorSound from "../../static/door.wav";
 
 export enum PurchaseState {
     ONGOING,
@@ -81,7 +81,7 @@ class PurchaseStore {
             .then(action((data: any) => { // FIXME: Use returned total instead of frontend based calculation
                 this.state = PurchaseState.FINALIZED;
 
-                cashSound.play();
+                new Audio(cashSound).play();
 
                 viewStore.showPopup({
                     component: (
@@ -115,7 +115,6 @@ class PurchaseStore {
 
     @action
     clearPurchase() {
-        console.log("apa");
         this.state = PurchaseState.WAITING;
         cartStore.clearProducts();
     }
@@ -128,7 +127,7 @@ class PurchaseStore {
     }
 
     cancelPurchase() {
-        doorSound.play();
+        new Audio(doorSound).play();
         this.clearPurchase();
     }
 

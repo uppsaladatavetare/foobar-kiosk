@@ -35,7 +35,10 @@ webpack({
             exclude: /node_modules/
         }, {
             test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
-            loader: "file-loader"
+            loader: "file-loader",
+            options: {
+                name: "[path][name].[ext]"
+            }
         }]
     },
     plugins: [

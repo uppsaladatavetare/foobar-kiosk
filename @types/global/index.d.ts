@@ -28,6 +28,16 @@ declare module "*.scss" {
     export = classNames;
 }
 
+declare module "*.wav" {
+    const src: string;
+    export = src;
+}
+
+declare module "*.svg" {
+    const src: string;
+    export = src;
+}
+
 // Fix until react-transition-group and @types/react-transition-group match their exports
 declare module "react-transition-group" {
     import * as InternalTransitionGroup from "react-transition-group/TransitionGroup";
