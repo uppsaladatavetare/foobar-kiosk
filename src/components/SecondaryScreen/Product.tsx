@@ -1,35 +1,63 @@
 import * as React from "react";
-import * as classNames from "classnames";
-import { IProduct } from "types";
+import { observer } from "mobx-react";
+import { classes, style } from "typestyle";
+import { Loading } from "components/Loading";
+import { Product as ProductType } from "types/Product";
 
-import { Box, Flex } from "reflexbox";
-import { LoadingBox } from "components";
+const classNames = {
+    product: style({
 
-import * as style from "styles/secondary/components/Product.scss";
+    }),
+    loading: style({
 
-export default class Product extends React.Component<IProduct> {
+    }),
+    failed: style({
+
+    }),
+    image: style({
+
+    }),
+    name: style({
+
+    }),
+    quantity: style({
+
+    }),
+    price: style({
+
+    })
+};
+
+interface IProductProps {
+    product: ProductType;
+}
+
+@observer
+export class Product extends React.Component<IProductProps> {
     render() {
-        if (this.props.loading) {
+        const product = this.props.product;
+
+        if (product.isLoading) {
             return (
-                <Box className={style.product}>
-                    <LoadingBox className={style.loading}/>
-                </Box>
+                <div className={classNames.product}>
+                    <Loading className={classNames.loading}/>
+                </div>
             );
-        } else if (this.props.failed) {
+        } else if (product.failed) {
             return (
-                <Flex className={classNames(style.product, style.failed)}>
+                <div className={classes(classNames.product, classNames.failed)}>
                     Unknown item
-                </Flex>
-            );
-        } else {
-            return (
-                <Flex className={style.product}>
-                    <Box className={style.image} style={{backgroundImage: `url(${this.props.image})`}} />
-                    <Box className={style.name}>{this.props.name}</Box>
-                    <Box className={style.quantity}>{this.props.qty} x</Box>
-                    <Box className={style.price}>{this.props.price} kr</Box>
-                </Flex>
+                </div>
             );
         }
+
+        return (
+            <div className={classNames.product}>
+                <div className={classNames.image} style={{backgroundImage: `url(${product.image})`}} />
+                <div className={classNames.name}>{product.name}</div>
+                <div className={classNames.quantity}>{product.qty} x</div>
+                <div className={classNames.price}>{product.price} kr</div>
+            </div>
+        );
     }
 }

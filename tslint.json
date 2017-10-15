@@ -1,28 +1,13 @@
 {
   "extends": "./node_modules/tslint/lib/configs/recommended.js",
   "rules": {
-    "ban-types": false,
     "linebreak-style": [true, "LF"],
     "max-classes-per-file": false,
     "member-access": false,
     "member-ordering": false,
-    "no-unnecessary-initializer": false,
-    "no-var-requires": false,
+    "no-console": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "quotemark": false,
-    "trailing-comma": [true, {"multiline": "never", "singleline": "never"}]
-  },
-  "jsRules": {
-    "linebreak-style": [true, "LF"],
-    "max-classes-per-file": false,
-    "member-access": false,
-    "member-ordering": false,
-    "no-unnecessary-initializer": false,
-    "no-var-requires": false,
-    "object-literal-sort-keys": false,
-    "ordered-imports": false,
-    "quotemark": false,
     "trailing-comma": [true, {"multiline": "never", "singleline": "never"}]
   }
 }

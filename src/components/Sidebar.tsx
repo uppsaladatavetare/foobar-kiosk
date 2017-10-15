@@ -1,37 +1,78 @@
 import * as React from "react";
+import { computed } from "mobx";
+import { observer } from "mobx-react";
+import { style } from "typestyle";
+import { Button } from "components/Button";
+import { black } from "common/styling";
+import { viewStore } from "store/ViewStore";
+import { cartStore } from "store/CartStore";
 
-import { Button } from "components";
-import { Flex } from "reflexbox";
+const classNames = {
+    sidebar: style({
+        background: black,
+        display: "flex",
+        flexDirection: "column"
+    }),
+    up: style({
+        marginBottom: "auto"
+    }),
+    down: style({
+        marginTop: "auto"
+    })
+};
 
-import * as style from "styles/primary/components/Sidebar.scss";
+@observer
+export class Sidebar extends React.Component {
+    @computed
+    get canScrollUp() {
+        return viewStore.page > 0;
+    }
 
-interface ISidebarProps {
-    onIncrease: Function;
-    onDecrease: Function;
-    onRemove: Function;
-    onScrollUp: Function;
-    onScrollDown: Function;
-    scrollUpActive: boolean;
-    scrollDownActive: boolean;
-    active: boolean;
-}
+    @computed
+    get canScrollDown() {
+        return viewStore.page < viewStore.maxPage;
+    }
 
-export default class Sidebar extends React.Component<ISidebarProps> {
+    @computed
+    get hasSelection() {
+        return cartStore.selection.length > 0;
+    }
+
+    increase = () => {
+        cartStore.changeSelectionQty(1);
+    }
+
+    decrease = () => {
+        cartStore.changeSelectionQty(-1);
+    }
+
+    remove = () => {
+        cartStore.removeSelectedProducts();
+    }
+
+    scrollUp = () => {
+        viewStore.changePage(-1);
+    }
+
+    scrollDown = () => {
+        viewStore.changePage(1);
+    }
+
     render() {
-        const {
-            scrollUpActive, scrollDownActive, onDecrease, onIncrease, onRemove, active, onScrollDown, onScrollUp
-        } = this.props;
-
         return (
-            <Flex column className={style.sidebar}>
-                <Button icon="chevron-up" onClick={onScrollUp} disabled={!scrollUpActive}/>
-                <Flex column auto justify="center">
-                    <Button icon="plus" disabled={!active} onClick={onIncrease}/>
-                    <Button icon="minus" disabled={!active} onClick={onDecrease}/>
-                    <Button icon="trash" disabled={!active} onClick={onRemove}/>
-                </Flex>
-                <Button icon="chevron-down" onClick={onScrollDown} disabled={!scrollDownActive}/>
-            </Flex>
+            <div className={classNames.sidebar}>
+                <Button icon="chevron-up"
+                        className={classNames.up}
+                        onClick={this.scrollUp}
+                        disabled={!this.canScrollUp}/>
+                <Button icon="plus" disabled={!this.hasSelection} onClick={this.increase}/>
+                <Button icon="minus" disabled={!this.hasSelection} onClick={this.decrease}/>
+                <Button icon="trash" disabled={!this.hasSelection} onClick={this.remove}/>
+                <Button icon="chevron-down"
+                        className={classNames.down}
+                        onClick={this.scrollDown}
+                        disabled={!this.canScrollDown}/>
+            </div>
         );
     }
 }

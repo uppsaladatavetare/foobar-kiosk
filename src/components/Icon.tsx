@@ -1,15 +1,11 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
+import * as React from "react";
+import { classes } from "typestyle";
 
 interface IIconProps {
     name: string;
     className?: string;
 }
 
-export default class Icon extends React.Component<IIconProps> {
-    render() {
-        const { name, className = "" } = this.props;
-
-        return <i className={classNames('fa', 'fa-' + name, className)}/>;
-    }
-}
+export const Icon: React.StatelessComponent<IIconProps> = ({name, className}) => {
+    return <i className={classes("fa", "fa-" + name, className)}/>;
+};

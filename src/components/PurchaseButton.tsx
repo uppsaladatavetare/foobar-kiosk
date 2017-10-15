@@ -1,46 +1,46 @@
 import * as React from "react";
-import { IProductState } from "types";
+import { observer } from "mobx-react";
+import { style } from "typestyle";
+import { Button } from "components/Button";
+import { purchaseStore, PurchaseState } from "store/PurchaseStore";
+import { accountStore } from "store/AccountStore";
 
-import { Button } from "components";
+const classNames = {
+    button: style({
+        width: 248,
+        textAlign: "left",
+        zIndex: 9
+    })
+};
 
-import * as style from "styles/primary/components/PurchaseButton.scss";
+@observer
+export class PurchaseButton extends React.Component {
+    requestPurchase = () => {
+        purchaseStore.requestPurchase();
+    }
 
-interface IPurchaseButtonProps {
-    products: IProductState;
-    purchaseState: string;
-    accountBalance: number;
-    onPurchase: Function;
-}
-
-export default class PurchaseButton extends React.Component<IPurchaseButtonProps> {
     render() {
-        const { products, purchaseState, accountBalance, onPurchase } = this.props;
-
-        const total = products.products.filter((product) => {
-            return !product.loading && !product.failed;
-        }).map((product) => {
-            return product.price * product.qty;
-        }).reduce((x, y) => x + y, 0);
+        const balance = accountStore.account ? accountStore.account.balance : 0;
+        const total = purchaseStore.total;
 
         let active = false;
         let alert = false;
-        if (purchaseState === "ONGOING") {
-            if (total > 0 && (total <= accountBalance || !accountBalance)) {
+        if (purchaseStore.state === PurchaseState.ONGOING) {
+            if (total > 0 && (total <= balance || !balance)) {
                 active = true;
-            } else if (total > 0 && total > accountBalance) {
+            } else if (total > 0 && total > balance) {
                 alert = true;
             }
         }
 
         return (
-            <Button
-                label={total + " kr"}
-                icon="shopping-cart"
-                className={style.button}
-                disabled={!active}
-                success={active}
-                alert={alert}
-                onClick={onPurchase}/>
+            <Button label={total + " kr"}
+                    icon="shopping-cart"
+                    className={classNames.button}
+                    disabled={!active}
+                    success={active}
+                    alert={alert}
+                    onClick={this.requestPurchase}/>
         );
     }
 }
