@@ -5,7 +5,6 @@
     "max-classes-per-file": false,
     "member-access": false,
     "member-ordering": false,
-    "no-var-requires": false,
     "no-console": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,

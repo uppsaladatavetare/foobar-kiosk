@@ -9,7 +9,7 @@ const publicPath = "/";
 
 new WebpackDevServer(webpack({
     target: "web",
-    devtool: "#source-map",
+    devtool: "cheap-module-source-map",
     context: path.resolve(__dirname, "../"),
     entry: [
         "tslib",
