@@ -26,6 +26,7 @@
     "@types/react-redux": "4.4.47",
     "@types/redux-logger": "2.6.31",
     "@types/redux-thunk": "2.1.30",
+    "@types/tapable": "^0.2.5",
     "@types/webpack": "3.0.5",
     "@types/webpack-dev-server": "2.4.1",
     "autoprefixer": "7.1.2",
