@@ -2,7 +2,7 @@
 
 This repository contains the frontend for the FooBar kiosk and inventory system.
 
-[![The kiosk in action](https://user-images.githubusercontent.com/74944/104196407-071f9c00-5424-11eb-9d33-d97c2d56d4af.png)](hhttps://user-images.githubusercontent.com/74944/104195623-279b2680-5423-11eb-971c-a887925aea68.mp4)
+[![The kiosk in action](https://user-images.githubusercontent.com/74944/104196407-071f9c00-5424-11eb-9d33-d97c2d56d4af.png)](https://user-images.githubusercontent.com/74944/104195623-279b2680-5423-11eb-971c-a887925aea68.mp4)
 
 *(click on the image for a high quality video)*
 
