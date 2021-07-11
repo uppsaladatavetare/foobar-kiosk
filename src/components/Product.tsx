@@ -31,9 +31,7 @@ export default class Product extends React.Component<IProductProps> {
         } else {
             return (
                 <Box className={style.product} onClick={() => this.props.onSelect(this.props.code)}>
-                    <Box className={style.image}>
-                        <img src={this.props.image} alt=""/>
-                    </Box>
+                    <Box className={style.image} style={{backgroundImage: `url(${this.props.image})`}} />
                     <Box className={style.name}>{this.props.name}</Box>
                     <Box className={style.quantity}>{this.props.qty} x</Box>
                     <Box className={style.price}>{this.props.price} kr</Box>
