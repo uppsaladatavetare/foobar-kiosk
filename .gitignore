@@ -3,5 +3,7 @@ env/
 node_modules/
 config.dev.ts
 config.prod.ts
-build/build.js
+build/*
+!build/index.html
+!build/static/
 .awCache/

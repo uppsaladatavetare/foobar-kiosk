@@ -1,46 +1,19 @@
-declare const module: { hot: any };
+import { useStrict } from "mobx";
+import { cartStore } from "store/CartStore";
+import { accountStore } from "store/AccountStore";
 
-import * as Raven from "raven-js";
-const createRavenMiddleware = require("raven-for-redux");
+export function configureStore() {
+    useStrict(true);
 
-import thunkMiddleware from "redux-thunk";
-import * as createLogger from "redux-logger";
-import { createStore, applyMiddleware } from "redux";
-
-import rootReducer from "reducers";
-import { thunderCall } from "api";
-
-if (config.SENTRY) {
-    Raven.config(config.SENTRY).install();
-}
-
-const createStoreWithMiddleware = applyMiddleware(
-    thunkMiddleware,
-    createLogger(),
-    createRavenMiddleware(Raven)
-)(createStore);
-
-export default function configureStore(initialState: any = {}) {
-    const store = createStoreWithMiddleware(rootReducer, initialState);
-
-    if (module.hot) {
-        // Enable Webpack hot module replacement for reducers
-        module.hot.accept("reducers", () => {
-            const nextRootReducer = require("reducers");
-            store.replaceReducer(nextRootReducer);
-        });
-    }
-
-    if (config.SCREEN === 'primary') {
-        store.subscribe(() => {
-            thunderCall('/channels/state/', {
-                method: "post",
-                body: JSON.stringify({
-                    state: store.getState()
-                })
-            });
-        });
-    }
-
-    return store;
+    const subscribeTo = config.SCREEN === "primary" ? ["products", "cards"] : ["state"];
+    Thunder.connect(config.THUNDER.host, config.THUNDER.key, subscribeTo);
+    Thunder.listen((data) => {
+        if (data.channel === "products") {
+            cartStore.fetchProduct(JSON.parse(data.payload));
+        } else if (data.channel === "cards") {
+            accountStore.login(data.payload);
+        } else if (data.channel === "state") {
+            // FIXME
+        }
+    });
 }

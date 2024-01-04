@@ -27,3 +27,13 @@ declare module "*.scss" {
     const classNames: IClassNames;
     export = classNames;
 }
+
+declare module "*.wav" {
+    const src: string;
+    export = src;
+}
+
+declare module "*.svg" {
+    const src: string;
+    export = src;
+}

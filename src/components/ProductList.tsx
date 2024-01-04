@@ -1,41 +1,93 @@
 import * as React from "react";
-import * as ReactCSSTransitionGroup from "react-addons-css-transition-group";
-import { IProductState } from "types";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { observer } from "mobx-react";
+import { style, classes } from "typestyle";
+import { Product } from "components/Product";
+import { cartStore } from "store/CartStore";
+import { viewStore } from "store/ViewStore";
 
-import { Box, Flex } from "reflexbox";
-import { Product } from "components";
+const classNames = {
+    container: style({
+        position: "relative",
+        flex: 1
+    }),
+    grid: style({
+        display: "flex",
+        padding: 4,
+        zIndex: 0,
+        transition: "transform .3s ease",
+        flexWrap: "wrap",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        flex: 1,
+        height: "100%"
+    }),
+    start: style({
+        fontSize: 28,
+        display: "flex",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+    }),
+    enter: style({
+        transform: "scale(0)"
+    }),
+    enterActive: style({
+        transform: "scale(1)",
+        transition: "transform .3s ease"
+    }),
+    exit: style({
+        transform: "scale(1)"
+    }),
+    exitActive: style({
+        transform: "scale(0)",
+        transition: "transform .3s ease"
+    })
+};
 
-import * as style from "styles/primary/components/ProductList.scss";
+const transition = {
+    appear: classNames.enter,
+    appearActive: classNames.enterActive,
+    enter: classNames.enter,
+    enterActive: classNames.enterActive,
+    exit: classNames.exit,
+    exitActive: classNames.exitActive
+};
 
-interface IProductListProps {
-    products: IProductState;
-    onSelect: Function;
-}
+@observer
+export class ProductList extends React.Component {
+    onSelect = (code: string) => {
+        cartStore.selectProduct(code);
+    }
 
-export default class ProductList extends React.Component<IProductListProps> {
+    renderInfo() {
+        return (
+            <CSSTransition className={classNames.start} classNames={{}} timeout={0}>
+                <div>Scan an item to make it a part of your purchase</div>
+            </CSSTransition>
+        );
+    }
+
     render() {
-        if (this.props.products.products.length > 0) {
-            const content = this.props.products.products.map((product) => {
-                return <Product {...product} key={product.code} onSelect={this.props.onSelect}/>;
-            });
+        const content = cartStore.products.values().map((product) => {
+            return (
+                <CSSTransition key={product.code} classNames={transition} timeout={300}>
+                    <Product product={product} onSelect={this.onSelect}/>
+                </CSSTransition>
+            );
+        });
 
-            return (
-                <ReactCSSTransitionGroup
-                    component={Flex}
-                    style={{ transform: "translate(0, " + this.props.products.page * -206 + "px)" }}
-                    className={style.grid}
-                    transitionName="product"
-                    transitionEnterTimeout={300}
-                    transitionLeaveTimeout={300}>
-                    {content}
-                </ReactCSSTransitionGroup>
-            );
-        } else {
-            return (
-                <Flex auto align="center" justify="center" className={style.start}>
-                    <Box>Scan an item to make it a part of your purchase</Box>
-                </Flex>
-            );
-        }
+        return (
+            <TransitionGroup className={classes(classNames.container, classNames.grid)} appear
+                             style={{ transform: "translate(0, " + viewStore.page * -206 + "px)" }}>
+                {cartStore.products.size === 0 && this.renderInfo()}
+                {content}
+            </TransitionGroup>
+        );
     }
 }

@@ -1,25 +1,28 @@
 // tslint:disable:no-console
 import * as webpack from "webpack";
 import * as path from "path";
+import * as fs from "fs";
 import config from "../config.prod";
 
+const outputPath = path.resolve("build");
 const publicPath = "/";
+const statsFile = path.join(outputPath, "webpackStats.json");
 
 webpack({
     target: "web",
-    devtool: "#source-map",
+    devtool: false,
     context: path.resolve(__dirname, "../"),
     entry: [
         "tslib",
         path.resolve("src/App")
     ],
     output: {
-        path: path.resolve("build"),
+        path: outputPath,
         filename: "build.js",
         publicPath
     },
     resolve: {
-        extensions: [".css", ".scss", ".js", ".jsx", ".ts", ".tsx", ".json"],
+        extensions: [".css", ".js", ".jsx", ".ts", ".tsx", ".json"],
         modules: [
             path.resolve("node_modules"),
             path.resolve("src")
@@ -31,34 +34,11 @@ webpack({
             loader: "awesome-typescript-loader",
             exclude: /node_modules/
         }, {
-            test: /\.s?css$/,
-            use: [
-                "style-loader",
-                {
-                    loader: "typings-for-css-modules-loader",
-                    options: {
-                        modules: true,
-                        importLoaders: 1,
-                        localIdentName: "[name]_[local]_[hash:base64:5]",
-                        sass: true,
-                        namedExport: true,
-                        camelCase: true
-                    }
-                },
-                "postcss-loader",
-                {
-                    loader: "sass-loader",
-                    options: {
-                        includePaths: [
-                            path.resolve("node_modules"),
-                            path.resolve("src")
-                        ]
-                    }
-                }
-            ]
-        }, {
             test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
-            loader: "file-loader"
+            loader: "file-loader",
+            options: {
+                name: "[path][name].[ext]"
+            }
         }]
     },
     plugins: [
@@ -101,4 +81,6 @@ webpack({
         warnings: true,
         publicPath: false
     }));
+
+    fs.writeFileSync(statsFile, JSON.stringify(stats.toJson()));
 });
